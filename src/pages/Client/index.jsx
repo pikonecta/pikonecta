@@ -1,7 +1,7 @@
-import FormElement from './FormElement'
-import SideBar from './SideBar'
-import Ubication from './Ubication'
-import UploadImgToForm from './UploadImgToForm'
+import FormElement from "components/FormElement";
+import SideBar from "components/Sidebar";
+import Ubication from "components/Location";
+import UploadImgToForm from "components/ImageUpload";
 
 function ClientForm() {
   return (
@@ -12,7 +12,9 @@ function ClientForm() {
       <div className="col-span-2 h-screen">
         <form action="#" method="POST">
           <div className=" bg-white space-y-3 p-4 pr-10">
-            <h1 className="text-6xl font-bold leading-6 text-sky-700 py-10">Añadir usuario</h1>
+            <h1 className="text-6xl font-bold leading-6 text-sky-700 py-10">
+              Añadir usuario
+            </h1>
             <div className="grid grid-flow-row-dense grid-cols-3 gap-3">
               <div className="row-start-2 col-span-2">
                 <FormElement content="Nombre de la empresa: *">
@@ -79,13 +81,11 @@ function ClientForm() {
                 ATRAS
               </button>
             </div>
-
           </div>
-
         </form>
       </div>
     </div>
-  )
+  );
 }
 
-export default ClientForm
+export default ClientForm;

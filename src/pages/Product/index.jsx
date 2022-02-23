@@ -1,6 +1,6 @@
-import UploadImgToForm from './UploadImgToForm'
-import FormElement from './FormElement'
-import SideBar from './SideBar'
+import UploadImgToForm from "components/ImageUpload";
+import FormElement from "components/FormElement";
+import SideBar from "components/Sidebar";
 
 function ProductForm() {
   return (
@@ -11,10 +11,11 @@ function ProductForm() {
       <div className="col-span-2 h-screen">
         <form action="#" method="POST">
           <div className=" bg-white space-y-6 p-4 pr-10 ">
-            <h1 className="text-6xl font-bold leading-6 text-sky-700 py-10">Añadir producto</h1>
+            <h1 className="text-6xl font-bold leading-6 text-sky-700 py-10">
+              Añadir producto
+            </h1>
             <div className="grid grid-cols-3 gap-3">
               <div className="col-span-2 grid gap-6">
-
                 <FormElement content="Nombre: *">
                   <input
                     type="text"
@@ -34,7 +35,6 @@ function ProductForm() {
                     placeholder="Escriba el precio de su producto"
                   />
                 </FormElement>
-
               </div>
 
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-sky-100">
@@ -68,14 +68,11 @@ function ProductForm() {
                 ATRAS
               </button>
             </div>
-
           </div>
-
         </form>
       </div>
     </div>
-
-  )
+  );
 }
 
-export default ProductForm
+export default ProductForm;

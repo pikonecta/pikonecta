@@ -1,9 +1,8 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
 function UploadImgToForm({ content }) {
   return (
-
     <div className="space-y-1 text-center">
       <svg
         className="mx-auto h-12 w-12 text-gray-400"
@@ -25,18 +24,22 @@ function UploadImgToForm({ content }) {
           className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
         >
           {content}
-          <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+          <input
+            id="file-upload"
+            name="file-upload"
+            type="file"
+            className="sr-only"
+          />
         </label>
         <p className="pl-1">o arrastra y suelta</p>
       </div>
       <p className="text-xs text-gray-500">PNG, JPG</p>
     </div>
-
-  )
+  );
 }
 
 UploadImgToForm.propTypes = {
   content: PropTypes.string.isRequired,
-}
+};
 
-export default UploadImgToForm
+export default UploadImgToForm;
