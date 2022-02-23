@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import sites from "@/assets/sites.json";
 
-function Ubication() {
+function Location() {
   const [country, setCountry] = useState({
     name: undefined,
     id: undefined,
@@ -97,4 +97,4 @@ function Ubication() {
   );
 }
 
-export default Ubication;
+export default Location;
