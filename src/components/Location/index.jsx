@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import sites from "assets/sites.json";
+import { useState, useEffect } from "react";
+import sites from "@/assets/sites.json";
 
 function Ubication() {
   const [country, setCountry] = useState({
