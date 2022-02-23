@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import sites from "assets/sites.json";
+import places from "assets/places.json";
 
 function Ubication() {
   const [country, setCountry] = useState({
@@ -27,18 +27,20 @@ function Ubication() {
 
   useEffect(() => {
     if (country.id !== undefined) {
-      const deps = sites.paises.filter(({ id }) => id === country.id)[0]
-        .departamentos;
-      setDepartments([...deps]);
+      const currentDepartments = places.countries.filter(
+        ({ id }) => id === country.id
+      )[0].departments;
+      setDepartments([...currentDepartments]);
     }
     handleUnselectedSite();
   }, [country.id]);
 
   useEffect(() => {
     if (department.id !== undefined) {
-      const cits = departments.filter(({ id }) => id === department.id)[0]
-        .ciudades;
-      setCities([...cits]);
+      const currentCities = departments.filter(
+        ({ id }) => id === department.id
+      )[0].cities;
+      setCities([...currentCities]);
     }
     handleUnselectedSite();
   }, [department.id]);
@@ -52,13 +54,13 @@ function Ubication() {
         >
           Seleccione un país
         </option>
-        {sites.paises.map((site) => (
+        {places.countries.map((site) => (
           <option
             key={site.id}
-            value={site.nombre}
-            onClick={() => setCountry({ id: site.id, name: site.nombre })}
+            value={site.name}
+            onClick={() => setCountry({ id: site.id, name: site.name })}
           >
-            {site.nombre}
+            {site.name}
           </option>
         ))}
       </select>
@@ -71,15 +73,18 @@ function Ubication() {
           Seleccione un departamento
         </option>
         {departments.length > 0 &&
-          departments.map((dep) => (
+          departments.map((currentDepartment) => (
             <option
-              key={dep.id}
-              value={dep.departamento}
+              key={currentDepartment.id}
+              value={currentDepartment.name}
               onClick={() =>
-                setDepartment({ id: dep.id, name: dep.departamento })
+                setDepartment({
+                  id: currentDepartment.id,
+                  name: currentDepartment.name,
+                })
               }
             >
-              {dep.departamento}
+              {currentDepartment.name}
             </option>
           ))}
       </select>
@@ -87,9 +92,9 @@ function Ubication() {
       <select name="Ciudad">
         <option value="">Seleccione una ciudad</option>
         {cities.length > 0 &&
-          cities.map((cit) => (
-            <option key={cit} value={cit}>
-              {cit}
+          cities.map((city) => (
+            <option key={city} value={city}>
+              {city}
             </option>
           ))}
       </select>
