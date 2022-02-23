@@ -26,8 +26,9 @@
   },
   "settings": {
     "import/resolver": {
-      "node": {
-        "paths": ["src"]
+      "alias": {
+        "map": [["@", "./src/"]],
+        "extensions": [".ts", ".js", ".jsx", ".json"]
       }
     }
   }

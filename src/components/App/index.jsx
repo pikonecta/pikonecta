@@ -1,5 +1,5 @@
-import Client from "pages/Client";
-import Login from "pages/Login/Login";
+import Client from "@/pages/Client";
+import Login from "@/pages/Login/Login";
 
 function App() {
   return (

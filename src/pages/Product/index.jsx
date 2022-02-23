@@ -1,12 +1,12 @@
-import UploadImgToForm from "components/ImageUpload";
-import FormElement from "components/FormElement";
-import SideBar from "components/Sidebar";
+import UploadImgToForm from "@/components/ImageUpload";
+import FormElement from "@/components/FormElement";
+import Sidebar from "@/components/Sidebar";
 
 function ProductForm() {
   return (
     <div className="grid grid-cols-3 gap-3 gap-x-6">
       <div className="col-span-1">
-        <SideBar />
+        <Sidebar />
       </div>
       <div className="col-span-2 h-screen">
         <form action="#" method="POST">

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import places from "assets/places.json";
+import { useState, useEffect } from "react";
+import places from "@/assets/places.json";
 
-function Ubication() {
+function Location() {
   const [country, setCountry] = useState({
     name: undefined,
     id: undefined,
@@ -102,4 +102,4 @@ function Ubication() {
   );
 }
 
-export default Ubication;
+export default Location;
