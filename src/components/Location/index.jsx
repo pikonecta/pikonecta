@@ -2,88 +2,65 @@ import { useState, useEffect } from "react";
 import places from "@/assets/places.json";
 
 function Location() {
-  const [country, setCountry] = useState({
-    name: undefined,
-    id: undefined,
-  });
+  const [country, setCountry] = useState();
   const [departments, setDepartments] = useState([]);
 
-  const [department, setDepartment] = useState({
-    name: undefined,
-    id: undefined,
-  });
+  const [department, setDepartment] = useState();
   const [cities, setCities] = useState([]);
 
   const handleUnselectedSite = () => {
-    if (department.id === undefined) {
+    if (department === undefined) {
       setCities([]);
     }
 
-    if (country.id === undefined) {
+    if (country === undefined) {
       setDepartments([]);
       setCities([]);
     }
   };
 
   useEffect(() => {
-    if (country.id !== undefined) {
-      const currentDepartments = places.countries.filter(
-        ({ id }) => id === country.id
-      )[0].departments;
+    if (country !== undefined) {
+      const currentDepartments = places.countries.find(
+        ({ id }) => id === Number(country)
+      ).departments;
       setDepartments([...currentDepartments]);
     }
     handleUnselectedSite();
-  }, [country.id]);
+  }, [country]);
 
   useEffect(() => {
-    if (department.id !== undefined) {
-      const currentCities = departments.filter(
-        ({ id }) => id === department.id
-      )[0].cities;
+    if (department !== undefined) {
+      const currentCities = departments.find(
+        ({ id }) => id === Number(department)
+      ).cities;
       setCities([...currentCities]);
     }
     handleUnselectedSite();
-  }, [department.id]);
+  }, [department]);
 
   return (
     <div className="grid grid-cols-3 gap-2">
-      <select name="Pais">
-        <option
-          value=""
-          onClick={() => setCountry({ id: undefined, name: undefined })}
-        >
-          Seleccione un país
-        </option>
+      <select
+        name="Pais"
+        onChange={(event) => setCountry(event.currentTarget.value)}
+      >
+        <option value="">Seleccione un país</option>
         {places.countries.map((site) => (
-          <option
-            key={site.id}
-            value={site.name}
-            onClick={() => setCountry({ id: site.id, name: site.name })}
-          >
+          <option key={site.id} value={site.id}>
             {site.name}
           </option>
         ))}
       </select>
 
-      <select name="Departamento">
-        <option
-          value=""
-          onClick={() => setDepartment({ id: undefined, name: undefined })}
-        >
-          Seleccione un departamento
-        </option>
+      <select
+        name="Departamento"
+        onChange={(event) => setDepartment(event.currentTarget.value)}
+      >
+        <option value="">Seleccione un departamento</option>
         {departments.length > 0 &&
           departments.map((currentDepartment) => (
-            <option
-              key={currentDepartment.id}
-              value={currentDepartment.name}
-              onClick={() =>
-                setDepartment({
-                  id: currentDepartment.id,
-                  name: currentDepartment.name,
-                })
-              }
-            >
+            <option key={currentDepartment.id} value={currentDepartment.id}>
               {currentDepartment.name}
             </option>
           ))}
