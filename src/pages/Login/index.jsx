@@ -1,4 +1,24 @@
+import { useState, useContext } from "react";
+import { AccountContext } from "@/components/Account";
+
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { authenticate } = useContext(AccountContext);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    authenticate(email, password)
+      .then((data) => {
+        console.log("logged in", data);
+      })
+      .catch((error) => {
+        console.error("failed to login", error);
+      });
+  };
+
   return (
     <div className="grid place-items-center h-screen content-center">
       <div className=" flex-col w-min place-items-center">
@@ -12,18 +32,27 @@ function Login() {
           <div className="flex flex-col">
             <input
               className="m-4 radius-md border-b px-5 py-2"
-              placeholder="Ingrese nombre de usuario"
+              placeholder="Ingrese correo electrónico"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
             />
             <input
               className="m-4 radius-md border-b px-5 py-2"
               type="password"
               placeholder="Ingrese su contraseña"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
           </div>
           <div className="flex justify-around">
             <button
               type="submit"
               className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-l font-medium rounded-md text-white bg-sky-600 hover:bg-sky-700 focus:outline-none "
+              onClick={handleLogin}
             >
               SIGN IN
             </button>

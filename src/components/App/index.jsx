@@ -1,5 +1,7 @@
+import Login from "@/pages/Login";
 import Client from "@/pages/Client";
-import Login from "@/pages/Login/Login";
+import Product from "@/pages/Product";
+import { Account } from "@/components/Account";
 
 function App() {
   return (
@@ -7,7 +9,10 @@ function App() {
     <>
       <Client />
       {/* <ProductForm /> */}
-      <Login />
+      <Account>
+        <Login />
+        <Product />
+      </Account>
     </>
   );
 }
