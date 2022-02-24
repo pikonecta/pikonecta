@@ -1,14 +1,15 @@
 import Client from "@/pages/Client";
 import Login from "@/pages/Login/Login";
+import { Route, Routes } from "react-router-dom";
+import ProductForm from "@/pages/Product";
 
 function App() {
   return (
-    // Se pueden cambiar estos componentes, solo están ahí para verlos despleagados
-    <>
-      <Client />
-      {/* <ProductForm /> */}
-      <Login />
-    </>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/client" element={<Client />} />
+      <Route path="/product" element={<ProductForm />} />
+    </Routes>
   );
 }
 
