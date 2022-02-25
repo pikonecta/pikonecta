@@ -1,5 +1,5 @@
 import cn from "classnames";
-import logo from "@/assets/logo-konecta-dark.png";
+import logo from "@/assets/logo-konecta.svg";
 
 function Sidebar({ className }) {
   return (
