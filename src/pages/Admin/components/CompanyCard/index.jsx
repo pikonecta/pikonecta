@@ -38,7 +38,7 @@ function CompanyCard({ name, city, address, phone, imageUrl, id, isAlt }) {
       </div>
       <div className="flex justify-around px-4">
         <button
-          className="bg-button-edit/80 rounded-lg py-2 px-4 hover:bg-button-edit hover:shadow-sm mr-2"
+          className="bg-button-edit/60 rounded-lg py-2 px-4 hover:bg-button-edit hover:shadow-sm mr-2"
           type="button"
         >
           EDITAR

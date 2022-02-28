@@ -1,6 +1,7 @@
 import cn from "classnames";
+import { useEffect, useState } from "react";
 
-function SearchBar({ className }) {
+function SearchBar({ className, onChange }) {
   return (
     <div
       className={cn("bg-gray-100 rounded-lg flex flex-row relative", className)}
@@ -12,6 +13,7 @@ function SearchBar({ className }) {
         type="text"
         className="bg-none w-full bg-transparent border-transparent z-10 pl-14"
         placeholder="Buscar"
+        onChange={(event) => onChange(event.target.value)}
       />
     </div>
   );

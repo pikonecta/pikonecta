@@ -1,0 +1,52 @@
+{
+  "companies": [
+    {
+      "name": "E1",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "5F"
+    },
+    {
+      "name": "E1",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "3h"
+    },
+    {
+      "name": "E3",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "9G"
+    },
+    {
+      "name": "E4",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "2J"
+    },
+    {
+      "name": "E5",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "4I"
+    },
+    {
+      "name": "E6",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "8O"
+    }
+  ]
+}
