@@ -1,5 +1,4 @@
 import cn from "classnames";
-import { useEffect, useState } from "react";
 
 function SearchBar({ className, onChange }) {
   return (

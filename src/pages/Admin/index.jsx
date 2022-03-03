@@ -3,18 +3,18 @@ import CompaniesMock from "@/assets/companies.json";
 import { useEffect, useState } from "react";
 import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
+import Pagination from "./components/pagination";
 
 function AdminKonecta() {
   const [inputValue, setInputValue] = useState("");
   const [filterResult, setFilterResult] = useState([]);
+  const companiesSize = CompaniesMock.companies.length;
 
   useEffect(() => {
-    console.log(inputValue);
     const filter = CompaniesMock.companies.filter((company) => {
       return company.name.toLowerCase().includes(inputValue.toLowerCase());
     });
     setFilterResult(filter);
-    console.log(filter);
   }, [inputValue]);
 
   return (
@@ -52,6 +52,9 @@ function AdminKonecta() {
               />
             );
           })}
+        </div>
+        <div>
+          <Pagination size={companiesSize} />
         </div>
       </div>
     </div>

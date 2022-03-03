@@ -19,7 +19,7 @@ function CompanyCard({ name, city, address, phone, imageUrl, id, isAlt }) {
         )}
       >
         <div className="basis-1/2 flex flex-col justify-between pr-2">
-          <span className="text-3xl font-bold">{name}</span>
+          <span className="">{name}</span>
           <div className="font-bold text-sm">
             <div>{city}</div>
             <div>{address}</div>
