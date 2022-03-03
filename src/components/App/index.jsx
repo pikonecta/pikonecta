@@ -1,9 +1,10 @@
+import { Route, Routes } from "react-router-dom";
 import Client from "@/pages/Client";
 import Login from "@/pages/Login/Login";
-import { Route, Routes } from "react-router-dom";
 import ProductForm from "@/pages/Product";
 import GeneralProduct from "@/pages/Product/GeneralProduct";
-import Products from "../Product";
+import AdminKonecta from "@/pages/Admin";
+import Pagination from "@/pages/Admin/components/pagination";
 
 function App() {
   return (
@@ -11,7 +12,9 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/client" element={<Client />} />
       <Route path="/product" element={<ProductForm />} />
-      <Route path="/general" element={<GeneralProduct/>}/>
+      <Route path="/general" element={<GeneralProduct />} />
+      <Route path="/admin-konecta" element={<AdminKonecta />} />
+      <Route path="/pagination" element={<Pagination />} />
     </Routes>
   );
 }

@@ -2,113 +2,76 @@ import { useState, useEffect } from "react";
 import places from "@/assets/places.json";
 
 function Location() {
-  const [country, setCountry] = useState({
-    name: undefined,
-    id: -1,
-  });
+  const [country, setCountry] = useState();
   const [departments, setDepartments] = useState([]);
 
-  const [department, setDepartment] = useState({
-    name: undefined,
-    id: -1,
-  });
+  const [department, setDepartment] = useState();
   const [cities, setCities] = useState([]);
 
-  const [city, setCity] = useState(undefined);
-
   const handleUnselectedSite = () => {
-    if (department.id === -1) {
+    if (department === undefined) {
       setCities([]);
-      setCity(undefined);
     }
 
-    if (country.id === -1) {
+    if (country === undefined) {
       setDepartments([]);
-      setDepartment({ name: undefined, id: -1 });
       setCities([]);
-      setCity(undefined);
     }
   };
 
   useEffect(() => {
-    if (country.name === "")
-      setCountry({
-        name: undefined,
-        id: -1,
-      });
-    setDepartment({ name: undefined, id: -1 });
-    if (country.id !== -1) {
-      const currentDepartments = places.countries.filter(
-        ({ id }) => id === country.id
-      )[0].departments;
+    if (country !== undefined) {
+      const currentDepartments = places.countries.find(
+        ({ id }) => id === Number(country)
+      ).departments;
       setDepartments([...currentDepartments]);
     }
     handleUnselectedSite();
-  }, [country.id]);
+  }, [country]);
 
   useEffect(() => {
-    setCity(undefined);
-    if (department.id !== -1) {
-      const currentCities = departments.filter(
-        ({ id }) => id === department.id
-      )[0].cities;
+    if (department !== undefined) {
+      const currentCities = departments.find(
+        ({ id }) => id === Number(department)
+      ).cities;
       setCities([...currentCities]);
     }
     handleUnselectedSite();
-  }, [department.id]);
+  }, [department]);
 
   return (
     <div className="grid grid-cols-3 gap-2">
       <select
-        name="Country"
-        value={country.name}
-        onChange={(e) => {
-          setCountry({ name: e.target.value, id: e.target.selectedIndex - 1 });
-        }}
+        name="Pais"
+        onChange={(event) => setCountry(event.currentTarget.value)}
       >
         <option value="">Seleccione un país</option>
-        {places.countries.map((currentCountry) => (
-          <option
-            id={currentCountry.id}
-            key={currentCountry.id}
-            value={currentCountry.name}
-          >
-            {currentCountry.name}
+        {places.countries.map((site) => (
+          <option key={site.id} value={site.id}>
+            {site.name}
           </option>
         ))}
       </select>
 
       <select
-        name="Department"
-        value={department.name}
-        onChange={(e) => {
-          setDepartment({
-            name: e.target.value,
-            id: e.target.selectedIndex - 1,
-          });
-        }}
+        name="Departamento"
+        onChange={(event) => setDepartment(event.currentTarget.value)}
       >
         <option value="">Seleccione un departamento</option>
         {departments.length > 0 &&
           departments.map((currentDepartment) => (
-            <option key={currentDepartment.id} value={currentDepartment.name}>
+            <option key={currentDepartment.id} value={currentDepartment.id}>
               {currentDepartment.name}
             </option>
           ))}
       </select>
 
-      <select
-        name="City"
-        value={city}
-        onChange={(e) => {
-          setCity(e.target.value);
-        }}
-      >
+      <select name="Ciudad">
         <option value="">Seleccione una ciudad</option>
         {cities.length > 0 &&
-          cities.map((currentCity) => (
-            <option key={currentCity} value={currentCity}>
-              {currentCity}
+          cities.map((city) => (
+            <option key={city} value={city}>
+              {city}
             </option>
           ))}
       </select>
