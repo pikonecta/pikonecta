@@ -30,15 +30,15 @@ function Account({ children }) {
 
       user.authenticateUser(authDetails, {
         onSuccess: (data) => {
-          console.log("onSuccess: ", data);
+          // console.log("onSuccess: ", data); on success result object
           resolve(data);
         },
         onFailure: (err) => {
-          console.error("onFailure: ", err);
+          // console.error("onFailure: ", err); on error response
           reject(err);
         },
         newPasswordRequired: (data) => {
-          console.log("newPasswordRequired: ", data);
+          // console.log("newPasswordRequired: ", data); if you need to change the password, it returns your mail
           resolve(data);
         },
       });
