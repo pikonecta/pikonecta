@@ -1,0 +1,100 @@
+{
+  "companies": [
+    {
+      "name": "Cocacola",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "5F"
+    },
+    {
+      "name": "Nutresa",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "3h"
+    },
+    {
+      "name": "Margarita",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "9G"
+    },
+    {
+      "name": "Sura",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "2J"
+    },
+    {
+      "name": "E5",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "4I"
+    },
+    {
+      "name": "E6",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "8i"
+    },
+    {
+      "name": "Cocacola",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "5ñ"
+    },
+    {
+      "name": "Nutresa",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "3o"
+    },
+    {
+      "name": "Margarita",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "9p"
+    },
+    {
+      "name": "Sura",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "2g"
+    },
+    {
+      "name": "E5",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "4w"
+    },
+    {
+      "name": "E6",
+      "city": "Medellín",
+      "address": "Calle 9B #12",
+      "phone": "+57 312 280 XX XX",
+      "imageUrl": "https://via.placeholder.com/150",
+      "id": "8t"
+    }
+  ]
+}
