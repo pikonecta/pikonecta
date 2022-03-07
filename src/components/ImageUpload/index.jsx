@@ -1,11 +1,15 @@
-import React from "react";
 import PropTypes from "prop-types";
+import ErrorMessage from "../ErrorMessage";
 
-function UploadImgToForm({ content }) {
+function UploadImgToForm({ content, name, message, setter, register, errors }) {
+  const handleSubmitImg = (e) => {
+    setter(e.target.files[0]);
+  };
+
   return (
-    <div className="space-y-1 text-center">
+    <div className="space-y-1 text-center h-full flex flex-col  cursor-default">
       <svg
-        className="mx-auto h-12 w-12 text-gray-400"
+        className="mx-auto min-h-12 h-2/4 w-24 text-gray-400"
         stroke="currentColor"
         fill="none"
         viewBox="0 0 48 48"
@@ -25,15 +29,30 @@ function UploadImgToForm({ content }) {
         >
           {content}
           <input
+            {...register(name, {
+              required: true,
+              validate: {
+                lessThan10MB: (files) =>
+                  files[0]?.size < 10000000 || "Max 10MB",
+                acceptedFormats: (files) =>
+                  ["image/jpeg", "image/png"].includes(files[0]?.type) ||
+                  "solo son permitidos los siguientes formatos: PNG y JPEG",
+              },
+            })}
             id="file-upload"
             name="file-upload"
             type="file"
             className="sr-only"
+            accept="image/png, image/jpeg"
+            onChange={handleSubmitImg}
           />
         </label>
         <p className="pl-1">o arrastra y suelta</p>
       </div>
       <p className="text-xs text-gray-500">PNG, JPG</p>
+      {errors[name]?.type === "required" && (
+        <ErrorMessage message={`${message} es necesario `} />
+      )}
     </div>
   );
 }

@@ -1,69 +1,186 @@
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import FormElement from "@/components/FormElement";
+
 import Sidebar from "@/components/Sidebar";
 import Location from "@/components/Location";
 import UploadImgToForm from "@/components/ImageUpload";
+import ErrorMessage from "@/components/ErrorMessage";
 
 function ClientForm() {
+  const {
+    register,
+    handleSubmit,
+    unregister,
+    formState: { errors },
+  } = useForm();
+
+  const [logo, setLogo] = useState(undefined);
+  const [isCorrectLogoType, setIsCorrectLogoType] = useState(false);
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  useEffect(() => {
+    if (logo) {
+      const { type } = logo;
+      setIsCorrectLogoType(["image/jpeg", "image/png"].includes(type));
+    }
+  }, [logo]);
+
   return (
-    <div className="grid grid-cols-3 gap-3 gap-x-6">
+    <div className="grid grid-cols-3 gap-3 gap-x-6 min-h-fit">
       <div className="col-span-1">
         <Sidebar />
       </div>
-      <div className="col-span-2 h-screen">
-        <form action="#" method="POST">
+      <div className="col-span-2 cursor-default">
+        <form action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>
           <div className=" bg-white space-y-3 p-4 pr-10">
             <h1 className="text-6xl font-bold leading-6 text-sky-700 py-10">
-              Añadir usuario
+              Añadir cliente
             </h1>
             <div className="grid grid-flow-row-dense grid-cols-3 gap-3">
               <div className="row-start-2 col-span-2">
                 <FormElement content="Nombre de la empresa: *">
                   <input
-                    type="text"
-                    name="product-name"
-                    id="product-name"
                     className=" flex-1 block w-full  border-b border-sky-700"
                     placeholder="Escriba el nombre de la empresa de su cliente"
+                    {...register("company-name", { required: true })}
                   />
+                  {errors["company-name"]?.type === "required" && (
+                    <ErrorMessage message="Debe escribir el nombre de la empresa" />
+                  )}
                 </FormElement>
               </div>
-              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md bg-sky-100 row-start-1 row-end-3">
-                <UploadImgToForm content="Sube tu logo" />
+              <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 h-36 border-gray-300 border-dashed rounded-md bg-sky-100 row-start-1 row-end-3">
+                {logo ? (
+                  <div className="h-full flex flex-col justify-center">
+                    <img
+                      alt="logo"
+                      src={URL.createObjectURL(logo)}
+                      className="h-full"
+                    />
+                    {!isCorrectLogoType && (
+                      <ErrorMessage message="El formato del archivo es incorrecto" />
+                    )}
+                    <button
+                      type="button"
+                      className="text-xs text-center text-gray-500 hover:text-gray-700 cursor-pointer"
+                      onClick={() => {
+                        setLogo(undefined);
+                        unregister("company-logo");
+                      }}
+                    >
+                      cambiar imagen
+                    </button>
+                  </div>
+                ) : (
+                  <UploadImgToForm
+                    content="Sube el logo"
+                    name="company-logo"
+                    message="logo"
+                    setter={setLogo}
+                    register={register}
+                    errors={errors}
+                  />
+                )}
               </div>
             </div>
 
             <FormElement content="Ubicación: *">
-              <Location />
+              <Location register={register} errors={errors} />
             </FormElement>
 
             <FormElement content="Dirección: *">
               <input
-                type="text"
-                name="product-name"
-                id="product-name"
                 className=" flex-1 block w-full  border-b border-sky-700"
                 placeholder="Escriba la dirección de la empresa del cliente"
+                {...register("company-direction", { required: true })}
+              />
+              {errors["company-direction"]?.type === "required" && (
+                <ErrorMessage message="Debe escribir la dirección de la empresa" />
+              )}
+            </FormElement>
+
+            <FormElement content="NIT: *">
+              <input
+                className=" flex-1 block w-full  border-b border-sky-700"
+                placeholder="Escriba el NIT de la empresa"
+                {...register("NIT", {
+                  required: true,
+                  pattern: {
+                    value: /^[0-9]{10}$/,
+                    message: "NIT inválido",
+                  },
+                })}
+              />
+              {errors.NIT?.type === "required" && (
+                <ErrorMessage message="Debe escribir el NIT de la empresa" />
+              )}
+              {errors.NIT?.type === "pattern" && (
+                <ErrorMessage message="NIT inválido" />
+              )}
+            </FormElement>
+
+            <FormElement content="Actividad: ">
+              <input
+                className=" flex-1 block w-full  border-b border-sky-700"
+                placeholder="Escriba brevemente a qué se dedica de la empresa"
+                {...register("company-activity")}
               />
             </FormElement>
 
-            <FormElement content="Nombre del cliente: *">
+            <FormElement content="Nombre del representante legal: *">
               <input
-                type="text"
-                name="product-name"
-                id="product-name"
                 className=" flex-1 block w-full  border-b border-sky-700"
-                placeholder="Escriba el nombre del cliente"
+                placeholder="Escriba el nombre completo del representante legal"
+                {...register("client-name", { required: true })}
               />
+              {errors["client-name"]?.type === "required" && (
+                <ErrorMessage message="Debe escribir el nombre del representante legal de la empresa" />
+              )}
             </FormElement>
 
             <FormElement content="Número de teléfono: *">
               <input
-                type="text"
-                name="product-name"
-                id="product-name"
                 className=" flex-1 block w-full  border-b border-sky-700"
-                placeholder="Escriba el número de teléfono del cliente"
+                placeholder="Escriba el número de teléfono del representante legal"
+                {...register("client-phone", {
+                  required: true,
+                  pattern: {
+                    value: /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/,
+                    message: "Email inválido",
+                  },
+                })}
               />
+              {errors["client-phone"]?.type === "required" && (
+                <ErrorMessage message="Debe escribir el teléfono del representante legal de la empresa" />
+              )}
+              {errors["client-phone"]?.type === "pattern" && (
+                <ErrorMessage message="teléfono inválido" />
+              )}
+            </FormElement>
+
+            <FormElement content="Correo electrónico: *">
+              <input
+                className=" flex-1 block w-full  border-b border-sky-700"
+                placeholder="Escriba el correo electrónico del representante legal"
+                {...register("client-email", {
+                  required: true,
+                  pattern: {
+                    value:
+                      /^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})$/,
+                    message: "Email inválido",
+                  },
+                })}
+              />
+              {errors["client-email"]?.type === "required" && (
+                <ErrorMessage message="Debe escribir el correo del representante legal de la empresa" />
+              )}
+              {errors["client-email"]?.type === "pattern" && (
+                <ErrorMessage message="Email inválido" />
+              )}
             </FormElement>
 
             <div className="flex justify-around">
