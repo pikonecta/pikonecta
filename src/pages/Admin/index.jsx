@@ -3,19 +3,34 @@ import CompaniesMock from "@/assets/companies.json";
 import { useEffect, useState } from "react";
 import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
-import Pagination from "./components/pagination";
+import Pagination, {
+  DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
+} from "./components/Pagination";
 
 function AdminKonecta() {
   const [inputValue, setInputValue] = useState("");
-  const [filterResult, setFilterResult] = useState([]);
-  const companiesSize = CompaniesMock.companies.length;
+  const [companies, setCompanies] = useState([]);
+  const [companiesFiltered, setCompaniesFiltered] = useState([]);
+  const [companiesPerPage, setCompaniesPerPage] = useState([]);
+  const [page, setPage] = useState(1);
+  const companiesSize = companiesFiltered.length;
 
   useEffect(() => {
-    const filter = CompaniesMock.companies.filter((company) => {
+    setCompanies(CompaniesMock.companies);
+  }, []);
+
+  useEffect(() => {
+    const filter = companies.filter((company) => {
       return company.name.toLowerCase().includes(inputValue.toLowerCase());
     });
-    setFilterResult(filter);
-  }, [inputValue]);
+    setCompaniesFiltered(filter);
+  }, [inputValue, companies]);
+
+  useEffect(() => {
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    const end = (page - 1) * ITEMS_PER_PAGE + ITEMS_PER_PAGE;
+    setCompaniesPerPage(companiesFiltered.slice(start, end));
+  }, [page, companiesFiltered]);
 
   return (
     <div className="flex flex-row w-full">
@@ -37,8 +52,8 @@ function AdminKonecta() {
             Añadir
           </button>
         </div>
-        <div className="grid grid-cols-4 gap-16 p-5">
-          {filterResult.map((company, index) => {
+        <div className="grid grid-cols-1 gap-16 p-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {companiesPerPage.map((company, index) => {
             return (
               <CompanyCard
                 name={company.name}
@@ -54,7 +69,10 @@ function AdminKonecta() {
           })}
         </div>
         <div>
-          <Pagination size={companiesSize} />
+          <Pagination
+            size={companiesSize}
+            onPageChanged={(currentPage) => setPage(currentPage)}
+          />
         </div>
       </div>
     </div>

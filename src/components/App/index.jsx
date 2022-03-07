@@ -3,7 +3,6 @@ import Client from "@/pages/Client";
 import ProductForm from "@/pages/Product";
 import GeneralProduct from "@/pages/Product/GeneralProduct";
 import AdminKonecta from "@/pages/Admin";
-import Pagination from "@/pages/Admin/components/pagination";
 import Login from "@/pages/Login";
 import { Account } from "../Account";
 
@@ -16,7 +15,6 @@ function App() {
         <Route path="/product" element={<ProductForm />} />
         <Route path="/general" element={<GeneralProduct />} />
         <Route path="/admin-konecta" element={<AdminKonecta />} />
-        <Route path="/pagination" element={<Pagination />} />
       </Routes>
     </Account>
   );
