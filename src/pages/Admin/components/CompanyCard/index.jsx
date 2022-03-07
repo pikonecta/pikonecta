@@ -36,15 +36,15 @@ function CompanyCard({ name, city, address, phone, imageUrl, id, isAlt }) {
 
         <div />
       </div>
-      <div className="flex justify-around px-4">
+      <div className="flex justify-around px-4 flex flex-wrap">
         <button
-          className="bg-button-edit/60 rounded-lg py-2 px-4 hover:bg-button-edit hover:shadow-sm mr-2"
+          className="bg-button-edit/60 rounded-lg my-2 py-2 px-4 hover:bg-button-edit hover:shadow-sm mr-2"
           type="button"
         >
           EDITAR
         </button>
         <button
-          className="bg-button-delete/80 rounded-lg py-2 px-4 hover:bg-button-delete hover:shadow-sm"
+          className="bg-button-delete/80 rounded-lg my-2 py-2 px-4 hover:bg-button-delete hover:shadow-sm"
           type="button"
         >
           ELIMINAR
