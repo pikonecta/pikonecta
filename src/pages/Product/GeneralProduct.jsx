@@ -1,20 +1,16 @@
-import Products from "@/components/Product";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBars,
-  faMagnifyingGlass,
-  faBagShopping,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import Products from "@/components/Product";
 import Footer from "@/components/Footer/Footer";
 
 function GeneralProduct() {
   return (
     <div className=" gap-3 gap-x-6">
-      <div className=" bg-slate-50 flex ">
+      <div className=" bg-general-gray flex ">
         <div className="p-10 ">
           <FontAwesomeIcon
             type="button"
-            className="fa-2x bg-sky-100 px-3 py-2 rounded-md cursor-pointer"
+            className="fa-2x bg-general-blue px-3 py-2 rounded-md cursor-pointer"
             icon={faBars}
           />
         </div>
@@ -24,29 +20,24 @@ function GeneralProduct() {
         <div className="absolute right-0 p-6">
           <FontAwesomeIcon
             type="button"
-            className="fa-2x bg-sky-100 px-3 py-2 rounded-md m-4 cursor-pointer"
+            className="fa-2x bg-general-blue px-3 py-2 rounded-md m-4 cursor-pointer"
             icon={faMagnifyingGlass}
-          />
-          <FontAwesomeIcon
-            type="button"
-            className="fa-2x bg-sky-100 px-3 py-2 rounded-md m-4 cursor-pointer"
-            icon={faBagShopping}
           />
         </div>
       </div>
-      <div className="grid grid-cols-4 flex-col gap-y-5  p-20">
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
-        <Products name="Nombre del producto" price="Precio del producto" />
+      <div className="lg:grid lg:grid-cols-4 flex-col gap-y-5 p-20 sm:grid-cols-1 ">
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
+        <Products name="Nombre del producto" price="100.000" />
       </div>
       <div className="m-0 p-0">
         <Footer

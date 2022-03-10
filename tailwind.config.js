@@ -15,6 +15,8 @@ module.exports = {
         "button-delete": "#E69D94",
         "sidebar-color": "#F1F5FF",
         "sidebar-color-dark": "#4B86BB",
+        "general-blue": "#D2DFFF",
+        "general-gray": "#F9F9F9",
       },
     },
   },
