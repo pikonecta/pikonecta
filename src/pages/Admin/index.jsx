@@ -5,7 +5,7 @@ import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
-} from "./components/Pagination";
+} from "../../components/pagination";
 
 function AdminKonecta() {
   const [inputValue, setInputValue] = useState("");
@@ -35,7 +35,7 @@ function AdminKonecta() {
   return (
     <div className="flex flex-row w-full">
       <div className="basis-1/4 max-w-sm">
-        <Sidebar className="sticky top-0" />
+        <Sidebar />
       </div>
       <div className="w-full">
         <div className="flex flex-row justify-between py-10 px-5">
