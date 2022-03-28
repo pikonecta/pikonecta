@@ -11,14 +11,40 @@ function Account({ children }) {
       if (user) {
         user.getSession((err, session) => {
           if (err) {
-            reject();
+            reject(err);
           } else {
             resolve(session);
           }
         });
       } else {
-        reject();
+        const noUser = new Error("There is no active account");
+        reject(noUser);
       }
+    });
+  };
+
+  const confirmPassword = (Username, Password, NewPassword) => {
+    return new Promise((resolve, reject) => {
+      const user = new CognitoUser({ Username, Pool });
+      const authDetails = new AuthenticationDetails({ Username, Password });
+      user.authenticateUser(authDetails, {
+        onSuccess: (data) => {
+          resolve(data);
+        },
+        onFailure: (error) => {
+          reject(error);
+        },
+        newPasswordRequired: (_, req) => {
+          user.completeNewPasswordChallenge(NewPassword, req, {
+            onSuccess: (data) => {
+              resolve(data);
+            },
+            onFailure: (error) => {
+              reject(error);
+            },
+          });
+        },
+      });
     });
   };
 
@@ -30,16 +56,13 @@ function Account({ children }) {
 
       user.authenticateUser(authDetails, {
         onSuccess: (data) => {
-          // console.log("onSuccess: ", data); on success result object
           resolve(data);
         },
         onFailure: (err) => {
-          // console.error("onFailure: ", err); on error response
           reject(err);
         },
-        newPasswordRequired: (data) => {
-          // console.log("newPasswordRequired: ", data); if you need to change the password, it returns your mail
-          resolve(data);
+        newPasswordRequired: () => {
+          resolve("newPasswordRequired");
         },
       });
     });
@@ -57,6 +80,7 @@ function Account({ children }) {
       authenticate,
       getSession,
       logout,
+      confirmPassword,
     };
   }, []);
 
