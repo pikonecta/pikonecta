@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import CompaniesMock from "@/assets/companies.json";
 import Footer from "@/components/Footer/Footer";
 import ProductsList from "@/assets/products.json";
 import Product from "@/components/Product";
+import useOnClickOutside from "@/hooks/useOnClickOutside";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/pagination";
@@ -16,11 +17,14 @@ function ClientEdit({ id = "5F" }, { canEdit = false }) {
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [productsPerPage, setProductsPerPage] = useState([]);
   const productsSize = productsFiltered.length;
+  const ref = useRef();
 
   const getCompanyInfo = (companyId) =>
     CompaniesMock.companies.find((companyInfo) => {
       return companyInfo.id === companyId;
     });
+
+  useOnClickOutside(ref, () => setShowSearch(false));
 
   useEffect(() => {
     setCompany(getCompanyInfo(id));
@@ -64,6 +68,7 @@ function ClientEdit({ id = "5F" }, { canEdit = false }) {
             <input
               className="radius-lg rounded-lg border-b p-3  text-gray-500"
               placeholder="Busqueda"
+              ref={ref}
               onChange={(search) => {
                 setInputValue(search.target.value);
               }}
@@ -80,19 +85,17 @@ function ClientEdit({ id = "5F" }, { canEdit = false }) {
           )}
         </div>
       </div>
-      <div className="lg:grid lg:grid-cols-4 flex-col gap-y-5 p-20 sm:grid-cols-1 ">
+      <div className="lg:grid lg:grid-cols-4 flex-col gap-y-5 p-20 sm:grid-cols-1 min-h-screen">
         {productsPerPage.map((currentProduct) => {
           return (
-            <div>
-              <Product
-                key={currentProduct.id}
-                name={currentProduct.name}
-                price={currentProduct.price}
-                imageUrl={currentProduct.imageUrl}
-                canEdit={canEdit}
-                id={currentProduct.id}
-              />
-            </div>
+            <Product
+              key={currentProduct.id}
+              name={currentProduct.name}
+              price={currentProduct.price}
+              imageUrl={currentProduct.imageUrl}
+              canEdit={canEdit}
+              id={currentProduct.id}
+            />
           );
         })}
       </div>
