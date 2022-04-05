@@ -10,4 +10,14 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (thisPath) => thisPath.replace(/^\/api/, ""),
+      },
+    },
+  },
 });
