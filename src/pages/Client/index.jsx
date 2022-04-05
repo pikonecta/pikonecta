@@ -6,8 +6,8 @@ import Sidebar from "@/components/Sidebar";
 import Location from "@/components/Location";
 import UploadImgToForm from "@/components/ImageUpload";
 import ErrorMessage from "@/components/ErrorMessage";
-// import { createTenant } from "@/utils/createTenant";
-import { encodedLogo } from "@/utils/encodedLogo";
+import { createTenant } from "@/utils/createTenant";
+// import { encodedLogo } from "@/utils/encodedLogo";
 
 function ClientForm({ canEdit = false }) {
   const {
@@ -21,8 +21,7 @@ function ClientForm({ canEdit = false }) {
   const [isCorrectLogoType, setIsCorrectLogoType] = useState(false);
   // eslint-disable-next-line no-shadow
   const onSubmit = async (data) => {
-    const v = await encodedLogo(logo);
-    console.log(data, v);
+    await createTenant(data, logo);
   };
 
   useEffect(() => {
