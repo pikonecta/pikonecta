@@ -10,6 +10,7 @@ const createTenant = async (data, logo) => {
     COMPANY_NAME: data.companyName,
     COMPANY_EMAIL: data.companyEmail,
     COMPANY_PHONE: data.companyPhone,
+    COMPANY_ACTIVITY: data.companyActivity,
     REPRESENTATIVE_EMAIL: data.clientEmail,
     REPRESENTATIVE_NAME: data.clientName,
     REPRESENTATIVE_PHONE: data.clientPhone,
@@ -29,6 +30,31 @@ const createTenant = async (data, logo) => {
 };
 
 const updateTenant = async (data, logo) => {
+  const encodeLogo = await encodedLogo(logo);
+
+  const req = {
+    id: data.id,
+    COMPANY_NAME: data.companyName,
+    COMPANY_EMAIL: data.companyEmail,
+    COMPANY_PHONE: data.companyPhone,
+    COMPANY_ACTIVITY: data.companyActivity,
+    REPRESENTATIVE_EMAIL: data.clientEmail,
+    REPRESENTATIVE_NAME: data.clientName,
+    REPRESENTATIVE_PHONE: data.clientPhone,
+    NIT: data.NIT,
+    LOGO: {
+      encodedImage: encodeLogo,
+      extension: logo.name.split(".").pop(),
+    },
+    ADDRESS: data.companyAddress,
+    COUNTRY: data.country,
+    CITY: data.city,
+    DEPARTMENT: data.department,
+    ITS_ACTIVE: true
+  };
+  await axios.put(`/api/tenants/${data.id}`, req, {
+    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+  });
 
 };
 
@@ -37,4 +63,4 @@ const getTenant = async (id) => {
   return res.data; 
 };
 
-export { createTenant, getTenant };
+export { createTenant, getTenant, updateTenant };
