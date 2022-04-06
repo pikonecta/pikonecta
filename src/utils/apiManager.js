@@ -1,6 +1,6 @@
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import { encodedLogo } from "@/utils/encodedLogo";
+import  encodedLogo  from "@/utils/encodedLogo";
 
 const createTenant = async (data, logo) => {
   const encodeLogo = await encodedLogo(logo);
@@ -28,5 +28,13 @@ const createTenant = async (data, logo) => {
   });
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { createTenant };
+const updateTenant = async (data, logo) => {
+
+};
+
+const getTenant = async (id) => {
+  const res = await axios.get(`/api/tenants/tenant?id=${id}`)
+  return res.data; 
+};
+
+export { createTenant, getTenant };
