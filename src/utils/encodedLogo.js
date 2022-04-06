@@ -11,5 +11,4 @@ const encodedLogo = async (logo) => {
   return encodedImg.split(",").pop();
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { encodedLogo };
+export default encodedLogo;
