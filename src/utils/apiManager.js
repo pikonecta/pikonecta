@@ -52,7 +52,7 @@ const updateTenant = async (data, logo) => {
     DEPARTMENT: data.department,
     ITS_ACTIVE: true
   };
-  await axios.put(`/api/tenants/${data.id}`, req, {
+  await axios.put(`/api/tenants/tenant`, req, {
     Authorization: import.meta.env.VITE_ADMIN_TOKEN,
   });
 
