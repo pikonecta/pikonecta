@@ -2,12 +2,27 @@ import { useState, useEffect } from "react";
 import places from "@/assets/places.json";
 import ErrorMessage from "@/components/ErrorMessage";
 
-function Location({ register, errors }) {
-  const [country, setCountry] = useState("");
-  const [departments, setDepartments] = useState([]);
+function Location({ register, errors, canEdit = false, values }) {
+  const [country, setCountry] = useState(canEdit ? values.country : "");
+  const [departments, setDepartments] = useState(
+    canEdit
+      ? places.countries.find(({ name }) => {
+          return name === country;
+        })?.departments
+      : []
+  );
 
-  const [department, setDepartment] = useState("");
-  const [cities, setCities] = useState([]);
+  const [department, setDepartment] = useState(
+    canEdit ? values.department : ""
+  );
+
+  const [cities, setCities] = useState(
+    canEdit
+      ? departments.find(({ name }) => {
+          return name === department;
+        })?.cities
+      : []
+  );
 
   const handleUnselectedSite = () => {
     if (department === "") {
