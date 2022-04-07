@@ -1,9 +1,16 @@
-import PropTypes from "prop-types";
 import ErrorMessage from "../ErrorMessage";
 
-function UploadImgToForm({ content, name, message, setter, register, errors }) {
+function UploadImgToForm({
+  content,
+  name,
+  message,
+  setters,
+  register,
+  errors,
+}) {
   const handleSubmitImg = (e) => {
-    setter(e.target.files[0]);
+    setters.setLogo(e.target.files[0]);
+    setters.setLogoSrc(URL.createObjectURL(e.target.files[0]));
   };
 
   return (
@@ -56,9 +63,5 @@ function UploadImgToForm({ content, name, message, setter, register, errors }) {
     </div>
   );
 }
-
-UploadImgToForm.propTypes = {
-  content: PropTypes.string.isRequired,
-};
 
 export default UploadImgToForm;
