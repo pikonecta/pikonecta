@@ -6,24 +6,59 @@ import Sidebar from "@/components/Sidebar";
 import Location from "@/components/Location";
 import UploadImgToForm from "@/components/ImageUpload";
 import ErrorMessage from "@/components/ErrorMessage";
-// import { createTenant } from "@/utils/createTenant";
-import { encodedLogo } from "@/utils/encodedLogo";
+import { createTenant, getTenant, updateTenant } from "@/utils/apiManager";
 
-function ClientForm({ canEdit = false }) {
+function ClientForm({ canEdit = false, tenantId}) {
   const {
     register,
     handleSubmit,
     unregister,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const [logo, setLogo] = useState(undefined);
+  const [logoSrc, setLogoSrc] = useState("");
   const [isCorrectLogoType, setIsCorrectLogoType] = useState(false);
-  // eslint-disable-next-line no-shadow
+  const [place, setPlace] = useState(undefined);
+  
   const onSubmit = async (data) => {
-    const v = await encodedLogo(logo);
-    console.log(data, v);
+    if(!canEdit) {
+    const res = await createTenant(data, logo);
+    console.log(res);
+    } else {
+    const res = await updateTenant({...data,id:tenantId},logo instanceof File, logo);
+    console.log(res);
+    }
   };
+
+  useEffect(async () => {
+    if (canEdit) {
+      const res = await getTenant(tenantId);
+      const {Item : currentTenant} = res
+
+      setValue("companyName", currentTenant["COMPANY_NAME"]);
+      setValue("companyEmail", currentTenant["COMPANY_EMAIL"]);
+      setValue("companyPhone", currentTenant["COMPANY_PHONE"]);
+      setValue("companyActivity", currentTenant["COMPANY_ACTIVITY"]);
+      setValue("companyAddress", currentTenant["ADDRESS"]);
+      setValue("NIT", currentTenant["NIT"]);
+      setValue("clientName", currentTenant["REPRESENTATIVE_NAME"]);
+      setValue("clientEmail", currentTenant["REPRESENTATIVE_EMAIL"]);
+      setValue("clientPhone", currentTenant["REPRESENTATIVE_PHONE"]);
+      setValue("country", currentTenant["COUNTRY"]);
+      setValue("department", currentTenant["DEPARTMENT"]);
+      setValue("city", currentTenant["CITY"]);
+      setLogoSrc(currentTenant["LOGO"]);
+      setLogo({src:currentTenant["LOGO"],
+    type:"image/png"})
+      setPlace({
+        country: currentTenant["COUNTRY"], 
+        department: currentTenant["DEPARTMENT"], 
+        city: currentTenant["CITY"]
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (logo) {
@@ -59,11 +94,7 @@ function ClientForm({ canEdit = false }) {
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 h-36 border-gray-300 border-dashed rounded-md bg-sky-100 row-start-1 row-end-3">
                 {logo ? (
                   <div className="h-full flex flex-col justify-center">
-                    <img
-                      alt="logo"
-                      src={URL.createObjectURL(logo)}
-                      className="h-full"
-                    />
+                    <img alt="logo" src={logoSrc} className="h-full" />
                     {!isCorrectLogoType && (
                       <ErrorMessage message="El formato del archivo es incorrecto" />
                     )}
@@ -73,6 +104,7 @@ function ClientForm({ canEdit = false }) {
                       onClick={() => {
                         setLogo();
                         unregister("companyLogo");
+                        setLogoSrc();
                       }}
                     >
                       cambiar imagen
@@ -83,7 +115,7 @@ function ClientForm({ canEdit = false }) {
                     content="Sube el logo"
                     name="companyLogo"
                     message="logo"
-                    setter={setLogo}
+                    setters={{setLogo,setLogoSrc}}
                     register={register}
                     errors={errors}
                   />
@@ -131,7 +163,12 @@ function ClientForm({ canEdit = false }) {
               )}
             </FormElement>
             <FormElement content="Ubicación: *">
-              <Location register={register} errors={errors} />
+              {place? <Location
+                register={register}
+                errors={errors}
+                canEdit={true}
+                values={place}/>:
+                <>Loading...</>}
             </FormElement>
 
             <FormElement content="Dirección: *">
@@ -205,24 +242,32 @@ function ClientForm({ canEdit = false }) {
             </FormElement>
 
             <FormElement content="Correo electrónico: *">
-              <input
-                className=" flex-1 block w-full  border-b border-sky-700"
-                placeholder="Escriba el correo electrónico del representante legal"
-                {...register("clientEmail", {
-                  required: true,
-                  pattern: {
-                    value:
-                      /^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})$/,
-                    message: "Email inválido",
-                  },
-                })}
-              />
-              {errors.clientEmail?.type === "required" && (
-                <ErrorMessage message="Debe escribir el correo del representante legal de la empresa" />
-              )}
-              {errors.clientEmail?.type === "pattern" && (
-                <ErrorMessage message="Email inválido" />
-              )}
+              <>
+                {canEdit && (
+                  <span className="text-sky-700">
+                    El correo del cliente no se puede editar
+                  </span>
+                )}
+                <input
+                  className=" flex-1 block w-full  border-b border-sky-700"
+                  placeholder="Escriba el correo electrónico del representante legal"
+                  disabled={canEdit}
+                  {...register("clientEmail", {
+                    required: true,
+                    pattern: {
+                      value:
+                        /^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4})$/,
+                      message: "Email inválido",
+                    },
+                  })}
+                />
+                {errors.clientEmail?.type === "required" && (
+                  <ErrorMessage message="Debe escribir el correo del representante legal de la empresa" />
+                )}
+                {errors.clientEmail?.type === "pattern" && (
+                  <ErrorMessage message="Email inválido" />
+                )}
+              </>
             </FormElement>
 
             <div className="flex justify-around">
