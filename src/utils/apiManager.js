@@ -1,6 +1,6 @@
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import encodedLogo from "@/utils/encodedLogo.js";
+import encodedLogo from "@/utils/encodedLogo";
 
 const createTenant = async (data, logo) => {
   const encodeLogo = await encodedLogo(logo);
