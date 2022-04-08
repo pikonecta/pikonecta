@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormElement from "@/components/FormElement";
+import { useNavigate } from "react-router-dom";
 
 import Sidebar from "@/components/Sidebar";
 import Location from "@/components/Location";
@@ -8,7 +9,7 @@ import UploadImgToForm from "@/components/ImageUpload";
 import ErrorMessage from "@/components/ErrorMessage";
 import { createTenant, getTenant, updateTenant } from "@/utils/apiManager";
 
-function ClientForm({ canEdit = false, tenantId}) {
+function ClientForm({ canEdit = false, tenantId }) {
   const {
     register,
     handleSubmit,
@@ -17,45 +18,60 @@ function ClientForm({ canEdit = false, tenantId}) {
     setValue,
   } = useForm();
 
+  const navigate = useNavigate();
+
   const [logo, setLogo] = useState(undefined);
   const [logoSrc, setLogoSrc] = useState("");
   const [isCorrectLogoType, setIsCorrectLogoType] = useState(false);
   const [place, setPlace] = useState(undefined);
-  
+
   const onSubmit = async (data) => {
-    if(!canEdit) {
-    const res = await createTenant(data, logo);
-    console.log(res);
+    if (!canEdit) {
+      const res = await createTenant(data, logo);
+      if (res.data.statusCode === 200) {
+        navigate("/admin-konecta");
+        console.log("cliente creado exitosamente");
+      } else {
+        console.log("error al crear cliente");
+      }
     } else {
-    const res = await updateTenant({...data,id:tenantId},logo instanceof File, logo);
-    console.log(res);
+      const res = await updateTenant(
+        { ...data, id: tenantId },
+        logo instanceof File,
+        logo
+      );
+      if (res.data.statusCode === 200) {
+        navigate("/admin-konecta");
+        console.log("cliente editado exitosamente");
+      } else {
+        console.log("error al crear cliente");
+      }
     }
   };
 
   useEffect(async () => {
     if (canEdit) {
       const res = await getTenant(tenantId);
-      const {Item : currentTenant} = res
+      const { Item: currentTenant } = res;
 
-      setValue("companyName", currentTenant["COMPANY_NAME"]);
-      setValue("companyEmail", currentTenant["COMPANY_EMAIL"]);
-      setValue("companyPhone", currentTenant["COMPANY_PHONE"]);
-      setValue("companyActivity", currentTenant["COMPANY_ACTIVITY"]);
-      setValue("companyAddress", currentTenant["ADDRESS"]);
-      setValue("NIT", currentTenant["NIT"]);
-      setValue("clientName", currentTenant["REPRESENTATIVE_NAME"]);
-      setValue("clientEmail", currentTenant["REPRESENTATIVE_EMAIL"]);
-      setValue("clientPhone", currentTenant["REPRESENTATIVE_PHONE"]);
-      setValue("country", currentTenant["COUNTRY"]);
-      setValue("department", currentTenant["DEPARTMENT"]);
-      setValue("city", currentTenant["CITY"]);
-      setLogoSrc(currentTenant["LOGO"]);
-      setLogo({src:currentTenant["LOGO"],
-    type:"image/png"})
+      setValue("companyName", currentTenant.COMPANY_NAME);
+      setValue("companyEmail", currentTenant.COMPANY_EMAIL);
+      setValue("companyPhone", currentTenant.COMPANY_PHONE);
+      setValue("companyActivity", currentTenant.COMPANY_ACTIVITY);
+      setValue("companyAddress", currentTenant.ADDRESS);
+      setValue("NIT", currentTenant.NIT);
+      setValue("clientName", currentTenant.REPRESENTATIVE_NAME);
+      setValue("clientEmail", currentTenant.REPRESENTATIVE_EMAIL);
+      setValue("clientPhone", currentTenant.REPRESENTATIVE_PHONE);
+      setValue("country", currentTenant.COUNTRY);
+      setValue("department", currentTenant.DEPARTMENT);
+      setValue("city", currentTenant.CITY);
+      setLogoSrc(currentTenant.LOGO);
+      setLogo({ src: currentTenant.LOGO, type: "image/png" });
       setPlace({
-        country: currentTenant["COUNTRY"], 
-        department: currentTenant["DEPARTMENT"], 
-        city: currentTenant["CITY"]
+        country: currentTenant.COUNTRY,
+        department: currentTenant.DEPARTMENT,
+        city: currentTenant.CITY,
       });
     }
   }, []);
@@ -115,7 +131,7 @@ function ClientForm({ canEdit = false, tenantId}) {
                     content="Sube el logo"
                     name="companyLogo"
                     message="logo"
-                    setters={{setLogo,setLogoSrc}}
+                    setters={{ setLogo, setLogoSrc }}
                     register={register}
                     errors={errors}
                   />
@@ -163,12 +179,20 @@ function ClientForm({ canEdit = false, tenantId}) {
               )}
             </FormElement>
             <FormElement content="Ubicación: *">
-              {place? <Location
-                register={register}
-                errors={errors}
-                canEdit={true}
-                values={place}/>:
-                <>Loading...</>}
+              {canEdit &&
+                (place ? (
+                  <Location
+                    register={register}
+                    errors={errors}
+                    canEdit
+                    values={place}
+                  />
+                ) : (
+                  <>Loading...</>
+                ))}
+              {!canEdit && (
+                <Location register={register} errors={errors} values={place} />
+              )}
             </FormElement>
 
             <FormElement content="Dirección: *">
