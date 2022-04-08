@@ -8,7 +8,7 @@ import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/pagination";
 
-function ClientEdit({ id = "5F" }, { canEdit = false }) {
+function ClientEdit({ id = "5F", canEdit = false }) {
   const [company, setCompany] = useState();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
