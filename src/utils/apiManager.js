@@ -81,7 +81,7 @@ const deleteTenant = async (id) => {
   const res = await axios.delete(`/api/tenants/tenant?id=${id}`, {
     Authorization: import.meta.env.VITE_ADMIN_TOKEN,
   });
-  return res.data;
+  return res;
 };
 
 export { createTenant, getTenant, updateTenant, getTenants, deleteTenant };
