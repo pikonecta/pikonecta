@@ -1,6 +1,6 @@
 import Sidebar from "@/components/Sidebar";
-import CompaniesMock from "@/assets/companies.json";
 import { useEffect, useState } from "react";
+import { getTenants } from "@/utils/apiManager";
 import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
 import Pagination, {
@@ -15,13 +15,17 @@ function AdminKonecta() {
   const [page, setPage] = useState(1);
   const companiesSize = companiesFiltered.length;
 
-  useEffect(() => {
-    setCompanies(CompaniesMock.companies);
+  useEffect(async () => {
+    const res = await getTenants();
+    const tenants = JSON.parse(res.body).Items;
+    setCompanies(tenants);
   }, []);
 
   useEffect(() => {
     const filter = companies.filter((company) => {
-      return company.name.toLowerCase().includes(inputValue.toLowerCase());
+      return company.COMPANY_NAME.toLowerCase().includes(
+        inputValue.toLowerCase()
+      );
     });
     setCompaniesFiltered(filter);
   }, [inputValue, companies]);
@@ -56,11 +60,11 @@ function AdminKonecta() {
           {companiesPerPage.map((company, index) => {
             return (
               <CompanyCard
-                name={company.name}
-                city={company.city}
-                address={company.address}
-                phone={company.phone}
-                imageUrl={company.imageUrl}
+                name={company.COMPANY_NAME}
+                city={company.CITY}
+                address={company.ADDRESS}
+                phone={company.REPRESENTATIVE_PHONE}
+                imageUrl={company.LOGO}
                 id={company.id}
                 key={company.id}
                 isAlt={!(index % 2)}
