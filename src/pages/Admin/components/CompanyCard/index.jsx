@@ -1,8 +1,41 @@
 import cn from "classnames";
+import { useNavigate } from "react-router-dom";
+import { deleteTenant } from "@/utils/apiManager";
+import { useState, useEffect } from "react";
+import Modal from "@/components/Modal";
 
-// TODO: implemet id
-// eslint-disable-next-line no-unused-vars
-function CompanyCard({ name, city, address, phone, imageUrl, id, isAlt }) {
+function CompanyCard({
+  name,
+  city,
+  address,
+  phone,
+  imageUrl,
+  id,
+  isAlt,
+  setter,
+}) {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const navigate = useNavigate();
+
+  const handleRedirectToEdit = () => {
+    navigate(`/admin/update/${id}`);
+  };
+
+  const handleDelete = async () => {
+    const res = await deleteTenant(id);
+    if (res.status === 200) {
+      setter(id);
+    } else {
+      console.log("error al eliminar cliente");
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleting) {
+      handleDelete();
+    }
+  }, [isDeleting]);
+
   return (
     <div
       className={cn(
@@ -36,19 +69,19 @@ function CompanyCard({ name, city, address, phone, imageUrl, id, isAlt }) {
 
         <div />
       </div>
-      <div className="flex justify-around px-4 flex flex-wrap">
+      <div className="flex justify-around px-4 flex-wrap">
         <button
           className="bg-button-edit/60 rounded-lg my-2 py-2 px-4 hover:bg-button-edit hover:shadow-sm mr-2"
           type="button"
+          onClick={handleRedirectToEdit}
         >
           EDITAR
         </button>
-        <button
-          className="bg-button-delete/80 rounded-lg my-2 py-2 px-4 hover:bg-button-delete hover:shadow-sm"
-          type="button"
-        >
-          ELIMINAR
-        </button>
+        <Modal
+          title={`Eliminar ${name}`}
+          text={`¿Está seguro que quiere eliminar a ${name}?`}
+          setter={setIsDeleting}
+        />
       </div>
     </div>
   );
