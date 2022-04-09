@@ -64,8 +64,17 @@ const updateTenant = async (data, setLogo, logo) => {
 };
 
 const getTenant = async (id) => {
-  const res = await axios.get(`/api/tenants/tenant?id=${id}`);
+  const res = await axios.get(`/api/tenants/tenant?id=${id}`, {
+    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+  });
   return res.data;
 };
 
-export { createTenant, getTenant, updateTenant };
+const getTenants = async () => {
+  const res = await axios.get(`/api/tenants`, {
+    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+  });
+  return res.data;
+};
+
+export { createTenant, getTenant, updateTenant, getTenants };
