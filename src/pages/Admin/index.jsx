@@ -57,6 +57,7 @@ function AdminKonecta() {
           </button>
         </div>
         <div className="grid grid-cols-1 gap-16 p-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {companiesPerPage.length === 0 && <>Loading...</>}
           {companiesPerPage.map((company, index) => {
             return (
               <CompanyCard
