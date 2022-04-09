@@ -11,10 +11,15 @@ function App() {
     <Account>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/client" element={<Client />} />
-        <Route path="/product" element={<ProductForm />} />
-        <Route path="/admin-konecta" element={<AdminKonecta />} />
-        <Route path="/client-edit" element={<ClientEdit />} />
+        <Route path="/admin" element={<AdminKonecta />} />
+        <Route path="/admin/create" element={<Client />} />
+        <Route path="/admin/update/:id" element={<Client canEdit />} />
+        <Route path="/:id/" element={<ClientEdit />} />
+        <Route path="/:id/create" element={<ProductForm />} />
+        <Route
+          path="/:id/update/:idProduct"
+          element={<ProductForm canEdit />}
+        />
       </Routes>
     </Account>
   );
