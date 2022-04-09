@@ -13,6 +13,7 @@ function AdminKonecta() {
   const [companiesFiltered, setCompaniesFiltered] = useState([]);
   const [companiesPerPage, setCompaniesPerPage] = useState([]);
   const [page, setPage] = useState(1);
+  const [deletedItem, setDeletedItem] = useState(null);
   const companiesSize = companiesFiltered.length;
 
   useEffect(async () => {
@@ -20,6 +21,16 @@ function AdminKonecta() {
     const tenants = JSON.parse(res.body).Items;
     setCompanies(tenants);
   }, []);
+
+  useEffect(() => {
+    if (deletedItem) {
+      setDeletedItem(null);
+      const filtered = companies.filter(
+        (company) => company.id !== deletedItem
+      );
+      setCompanies([...filtered]);
+    }
+  }, [deletedItem]);
 
   useEffect(() => {
     const filter = companies.filter((company) => {
@@ -69,6 +80,7 @@ function AdminKonecta() {
                 id={company.id}
                 key={company.id}
                 isAlt={!(index % 2)}
+                setter={setDeletedItem}
               />
             );
           })}

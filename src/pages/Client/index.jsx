@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormElement from "@/components/FormElement";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Sidebar from "@/components/Sidebar";
 import Location from "@/components/Location";
@@ -9,7 +9,7 @@ import UploadImgToForm from "@/components/ImageUpload";
 import ErrorMessage from "@/components/ErrorMessage";
 import { createTenant, getTenant, updateTenant } from "@/utils/apiManager";
 
-function ClientForm({ canEdit = false, tenantId }) {
+function ClientForm({ canEdit = false }) {
   const {
     register,
     handleSubmit,
@@ -17,7 +17,7 @@ function ClientForm({ canEdit = false, tenantId }) {
     formState: { errors },
     setValue,
   } = useForm();
-
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const [logo, setLogo] = useState(undefined);
@@ -36,7 +36,7 @@ function ClientForm({ canEdit = false, tenantId }) {
       }
     } else {
       const res = await updateTenant(
-        { ...data, id: tenantId },
+        { ...data, id },
         logo instanceof File,
         logo
       );
@@ -48,10 +48,9 @@ function ClientForm({ canEdit = false, tenantId }) {
       }
     }
   };
-
   useEffect(async () => {
     if (canEdit) {
-      const res = await getTenant(tenantId);
+      const res = await getTenant(id);
       const { Item: currentTenant } = res;
 
       setValue("companyName", currentTenant.COMPANY_NAME);
