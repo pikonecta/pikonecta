@@ -17,7 +17,7 @@ function CompanyCard({
   const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
 
-  const handleRedirectToEdit = () => {
+  const redirectToEdit = () => {
     navigate(`/admin/update/${id}`);
   };
 
@@ -73,7 +73,7 @@ function CompanyCard({
         <button
           className="bg-button-edit/60 rounded-lg my-2 py-2 px-4 hover:bg-button-edit hover:shadow-sm mr-2"
           type="button"
-          onClick={handleRedirectToEdit}
+          onClick={redirectToEdit}
         >
           EDITAR
         </button>

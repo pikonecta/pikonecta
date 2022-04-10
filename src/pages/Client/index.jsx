@@ -82,6 +82,10 @@ function ClientForm({ canEdit = false }) {
     }
   }, [logo]);
 
+  const redirectToGeneral = () => {
+    navigate(`/admin`);
+  };
+
   return (
     <div className="grid grid-cols-3 gap-3 gap-x-6 min-h-fit">
       <div className="col-span-1">
@@ -302,8 +306,9 @@ function ClientForm({ canEdit = false }) {
               </button>
 
               <button
-                type="submit"
+                type="button"
                 className="inline-flex justify-center py-2 px-4 border border-black shadow-sm text-l font-medium rounded-md text-black bg-white hover:bg-gray-100 focus:outline-none focus:pointer-events-auto"
+                onClick={redirectToGeneral}
               >
                 ATRAS
               </button>

@@ -1,7 +1,12 @@
 import cn from "classnames";
 import logo from "@/assets/logo-konecta.svg";
+import { useNavigate } from "react-router-dom";
 
 function Sidebar({ className }) {
+  const navigate = useNavigate();
+  const redirectToLogin = () => {
+    navigate("/login");
+  };
   return (
     <div
       className={cn(
@@ -10,7 +15,14 @@ function Sidebar({ className }) {
       )}
     >
       <img src={logo} alt="Logo konecta" className="mx-auto w-64" />
-      <span className="material-icons-outlined text-gray-500">logout</span>
+
+      <button
+        type="button"
+        className="material-icons-outlined text-gray-500 hover:text-gray-600"
+        onClick={redirectToLogin}
+      >
+        logout
+      </button>
     </div>
   );
 }
