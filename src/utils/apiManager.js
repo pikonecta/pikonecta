@@ -84,4 +84,18 @@ const deleteTenant = async (id) => {
   return res;
 };
 
-export { createTenant, getTenant, updateTenant, getTenants, deleteTenant };
+const getProducts = async (id) => {
+  const res = await axios.get(`/api/products?tableName=Product_${id}`, {
+    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+  });
+  return res.data;
+};
+
+export {
+  createTenant,
+  getTenant,
+  updateTenant,
+  getTenants,
+  deleteTenant,
+  getProducts,
+};

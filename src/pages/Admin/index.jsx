@@ -1,5 +1,6 @@
 import Sidebar from "@/components/Sidebar";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getTenants } from "@/utils/apiManager";
 import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
@@ -15,6 +16,8 @@ function AdminKonecta() {
   const [page, setPage] = useState(1);
   const [deletedItem, setDeletedItem] = useState(null);
   const companiesSize = companiesFiltered.length;
+
+  const navigate = useNavigate();
 
   useEffect(async () => {
     const res = await getTenants();
@@ -47,6 +50,10 @@ function AdminKonecta() {
     setCompaniesPerPage(companiesFiltered.slice(start, end));
   }, [page, companiesFiltered]);
 
+  const redirectToCreate = () => {
+    navigate(`/admin/create`);
+  };
+
   return (
     <div className="flex flex-row w-full">
       <div className="basis-1/4 max-w-sm">
@@ -63,6 +70,7 @@ function AdminKonecta() {
           <button
             className="bg-sidebar-color px-8 text-gray-500 hover:shadow-sm hover:bg-sidebar-color-dark hover:text-white rounded-lg mr-2 py-2"
             type="button"
+            onClick={redirectToCreate}
           >
             Añadir
           </button>
