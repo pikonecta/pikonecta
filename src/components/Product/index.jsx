@@ -1,16 +1,52 @@
 import { useState } from "react";
 
-function Product({ name, price, imageUrl, canEdit, id }) {
+function Product({ name, price, images, canEdit }) {
+  const imgLength = images?.length || 0;
   const [showMenu, setShowMenu] = useState(false);
+  const [currentImg, setCurrentImg] = useState(0);
+
+  const handleImageChange = (goBack) => {
+    if (goBack) {
+      if (currentImg === 0) {
+        setCurrentImg(imgLength - 1);
+      } else {
+        setCurrentImg(currentImg - 1);
+      }
+    }
+    if (!goBack) {
+      if (currentImg === imgLength - 1) {
+        setCurrentImg(0);
+      } else {
+        setCurrentImg(currentImg + 1);
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col place-items-center ">
       <div className="cursor-pointer  my-2 mx-4 bg-white rounded-[18px] border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
         <div className="items-start">
-          <img
-            className="p-8 rounded-t-lg h-64 y-64"
-            src={imageUrl}
-            alt="product "
-          />
+          <div className="relative w-full select-none">
+            <img src={images[currentImg]} alt="" />
+            {imgLength > 1 && (
+              <div className="absolute w-full top-1/2 transform -translate-y-1/2 flex justify-between items-start px-3">
+                <button
+                  type="button"
+                  className="text-7xl text-gray-300 rounded-full hover:bg-slate-100"
+                  onClick={() => handleImageChange(true)}
+                >
+                  {"<"}
+                </button>
+                <button
+                  type="button"
+                  className="text-7xl text-gray-300 rounded-full hover:bg-slate-100"
+                  onClick={() => handleImageChange(false)}
+                >
+                  {">"}
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <div className="px-5 pb-5 py-2 bg-general-gray ">
           <div>
