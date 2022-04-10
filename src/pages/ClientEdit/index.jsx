@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from "react";
-import CompaniesMock from "@/assets/companies.json";
+import { getProducts, getTenant } from "@/utils/apiManager";
 import Footer from "@/components/Footer/Footer";
-import ProductsList from "@/assets/products.json";
 import Product from "@/components/Product";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
+import { useParams } from "react-router-dom";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/pagination";
 
-function ClientEdit({ id = "5F", canEdit = false }) {
+function ClientEdit({ canEdit = false }) {
   const [company, setCompany] = useState();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -18,20 +18,16 @@ function ClientEdit({ id = "5F", canEdit = false }) {
   const [productsPerPage, setProductsPerPage] = useState([]);
   const productsSize = productsFiltered.length;
   const ref = useRef();
-
-  const getCompanyInfo = (companyId) =>
-    CompaniesMock.companies.find((companyInfo) => {
-      return companyInfo.id === companyId;
-    });
+  const { id } = useParams();
 
   useOnClickOutside(ref, () => setShowSearch(false));
 
-  useEffect(() => {
-    setCompany(getCompanyInfo(id));
-  }, []);
+  useEffect(async () => {
+    const tenant = await getTenant(id);
+    setCompany(tenant.Item);
 
-  useEffect(() => {
-    setProducts(ProductsList.products);
+    const product = await getProducts(id);
+    setProducts(product.Items);
   }, []);
 
   useEffect(() => {
@@ -56,11 +52,7 @@ function ClientEdit({ id = "5F", canEdit = false }) {
           </span>
         </div>
         <div className="items-center p-5">
-          <img
-            className="center h-24 w-24"
-            src={company?.imageUrl}
-            alt="LOGO"
-          />
+          <img className="center h-24 w-24" src={company?.LOGO} alt="LOGO" />
           {/* <span className="center">{company?.name}</span> */}
         </div>
         <div className="p-10">
@@ -92,7 +84,7 @@ function ClientEdit({ id = "5F", canEdit = false }) {
               key={currentProduct.id}
               name={currentProduct.name}
               price={currentProduct.price}
-              imageUrl={currentProduct.imageUrl}
+              images={currentProduct.imgs}
               canEdit={canEdit}
               id={currentProduct.id}
             />
@@ -107,10 +99,10 @@ function ClientEdit({ id = "5F", canEdit = false }) {
       </div>
       <div className="m-0 p-0">
         <Footer
-          client={company?.name}
-          location={company?.city}
-          address={company?.address}
-          telephone={company?.phone}
+          client={company?.COMPANY_NAME}
+          location={company?.CITY}
+          address={company?.ADDRESS}
+          telephone={company?.COMPANY_PHONE}
         />
       </div>
     </div>
