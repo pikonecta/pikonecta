@@ -30,13 +30,14 @@ function ProductForm() {
 
   const onSubmit = async (data) => {
     const res = await createProduct(data, id, images);
-    if (res.status === 200) {
+    if (res.statusCode === 200) {
       reset();
       setImages([]);
       setImagesSrc([]);
       isCorrectImagesType(false);
     } else {
       console.log("error creando el producto");
+      console.log(res);
     }
   };
 
