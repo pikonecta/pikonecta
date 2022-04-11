@@ -1,8 +1,36 @@
-import { useState } from "react";
+import { deleteProduct } from "@/utils/apiManager";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Carousel from "../Carousel";
+import Modal from "../Modal";
 
-function Product({ name, price, images, canEdit }) {
+function Product({ name, price, images, canEdit = false, idProduct, setter }) {
   const [showMenu, setShowMenu] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const redirectToEdit = () => {
+    navigate(`/${id}/update/${idProduct}`);
+  };
+
+  const handleDelete = async () => {
+    const res = await deleteProduct(id, idProduct);
+    console.log(res);
+    if (res.status === 200) {
+      setter(idProduct);
+    } else {
+      console.log("error al eliminar producto");
+      console.log(res);
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleting) {
+      handleDelete();
+    }
+  }, [isDeleting]);
 
   return (
     <div className="flex flex-col place-items-center ">
@@ -28,25 +56,19 @@ function Product({ name, price, images, canEdit }) {
                   more_vert
                 </button>
                 {showMenu && (
-                  <div className="rounded-lg w-36 bg-gray-100 flex flex-col absolute bottom-full left-full">
-                    <a
-                      className="text-xls p-2 hover:bg-gray-200 rounded-lg"
-                      href="#edit"
+                  <div className="rounded-lg bg-gray-100 flex flex-col absolute bottom-full left-full z-10">
+                    <button
+                      className="bg-button-edit/60 w-full rounded-lg my-2 px-4 hover:bg-button-edit hover:shadow-sm mr-2"
+                      type="button"
+                      onClick={redirectToEdit}
                     >
-                      Editar producto
-                    </a>
-                    <a
-                      className="text-xls p-2 hover:bg-gray-200 rounded-lg"
-                      href="#edit"
-                    >
-                      Editar imagen
-                    </a>
-                    <a
-                      className="text-xls p-2 hover:bg-gray-200 rounded-lg"
-                      href="#delete"
-                    >
-                      Eliminar producto
-                    </a>
+                      Editar Producto
+                    </button>
+                    <Modal
+                      title="Eliminar producto"
+                      text={`¿Estás seguro de eliminar ${name}? (esta acción no se puede deshacer) `}
+                      setter={setIsDeleting}
+                    />
                   </div>
                 )}
               </div>

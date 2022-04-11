@@ -16,6 +16,7 @@ function ClientEdit({ canEdit = false }) {
   const [inputValue, setInputValue] = useState("");
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [productsPerPage, setProductsPerPage] = useState([]);
+  const [deletedItem, setDeletedItem] = useState(null);
   const productsSize = productsFiltered.length;
   const ref = useRef();
   const { id } = useParams();
@@ -26,6 +27,15 @@ function ClientEdit({ canEdit = false }) {
   const redirectToCreate = () => {
     navigate(`/${id}/create`);
   };
+
+  useEffect(() => {
+    if (deletedItem) {
+      console.log(deletedItem);
+      setDeletedItem(null);
+      const filtered = products.filter((product) => product.id !== deletedItem);
+      setProducts([...filtered]);
+    }
+  }, [deletedItem]);
 
   useEffect(async () => {
     const tenant = await getTenant(id);
@@ -100,7 +110,8 @@ function ClientEdit({ canEdit = false }) {
               price={currentProduct.price}
               images={currentProduct.imgs}
               canEdit={canEdit}
-              id={currentProduct.id}
+              idProduct={currentProduct.id}
+              setter={setDeletedItem}
             />
           );
         })}
