@@ -12,7 +12,7 @@ function UploadImgToForm({
   const handleSubmitImg = (e) => {
     setters.forEach((setter) => {
       if (setter.name === "setImages") {
-        setter.func(e.target.files);
+        setter.func([...e.target.files]);
       } else if (setter.name === "setLogo") {
         setter.func(e.target.files[0]);
       } else if (setter.name === "setLogoSrc") {
