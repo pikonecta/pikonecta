@@ -41,7 +41,7 @@ function ClientForm({ canEdit = false }) {
         logo
       );
       if (res.data.statusCode === 200) {
-        navigate("/admin-konecta");
+        navigate("/admin");
         console.log("cliente editado exitosamente");
       } else {
         console.log("error al crear cliente");
