@@ -29,7 +29,7 @@ function ClientForm({ canEdit = false }) {
     if (!canEdit) {
       const res = await createTenant(data, logo);
       if (res.data.statusCode === 200) {
-        navigate("/admin-konecta");
+        navigate("/admin");
         console.log("cliente creado exitosamente");
       } else {
         console.log("error al crear cliente");
