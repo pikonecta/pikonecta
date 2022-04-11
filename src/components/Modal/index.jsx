@@ -10,7 +10,7 @@ function Modal({ title = "", text = "", setter }) {
         type="button"
         onClick={() => setShowModal(true)}
       >
-        ELIMINAR
+        {title}
       </button>
       {showModal ? (
         <>
