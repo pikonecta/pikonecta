@@ -84,6 +84,18 @@ const deleteTenant = async (id) => {
   return res;
 };
 
+const deleteProduct = async (id, productId) => {
+  const res = await axios.delete(
+    `/api/products/product?tableName=Product_${id}&id=${productId}`,
+    {
+      headers: {
+        Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+      },
+    }
+  );
+  return res;
+};
+
 const getProducts = async (id) => {
   const res = await axios.get(`/api/products?tableName=Product_${id}`, {
     Authorization: import.meta.env.VITE_ADMIN_TOKEN,
@@ -129,4 +141,5 @@ export {
   deleteTenant,
   getProducts,
   createProduct,
+  deleteProduct,
 };
