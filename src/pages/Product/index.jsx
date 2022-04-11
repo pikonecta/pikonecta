@@ -3,7 +3,10 @@ import FormElement from "@/components/FormElement";
 import Sidebar from "@/components/Sidebar";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ErrorMessage from "@/components/ErrorMessage";
+import Carousel from "@/components/Carousel";
+import { createProduct } from "@/utils/apiManager";
 
 function ProductForm() {
   const {
@@ -13,19 +16,34 @@ function ProductForm() {
     formState: { errors },
   } = useForm();
 
-  const [logo, setLogo] = useState(undefined);
+  const [images, setImages] = useState(undefined);
+  const [imagesSrc, setImagesSrc] = useState(undefined);
   const [isCorrectLogoType, setIsCorrectLogoType] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const redirectToBack = () => {
+    navigate(`/${id}`);
+  };
+
+  const onSubmit = async (data) => {
+    const currentImages = [...images];
+    const res = await createProduct(data, id, currentImages);
+    console.log(res);
+    // if (res.statusCode === 200) {
+    //   redirectToBack();
+    // } else {
+    //   console.log("error al crear cliente");
+    // }
   };
 
   useEffect(() => {
-    if (logo) {
-      const { type } = logo;
+    if (images && images[0]) {
+      const { type } = images[0];
       setIsCorrectLogoType(["image/jpeg", "image/png"].includes(type));
     }
-  }, [logo]);
+  }, [images]);
 
   return (
     <div className="grid grid-cols-3 gap-3 gap-x-6 min-h-fit h-screen">
@@ -70,35 +88,36 @@ function ProductForm() {
               </div>
 
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 h-56 border-gray-300 border-dashed rounded-md bg-sky-100">
-                {logo ? (
+                {images ? (
                   <div className="h-full flex flex-col justify-center">
-                    <img
-                      alt="product"
-                      src={URL.createObjectURL(logo)}
-                      className="h-full"
-                    />
+                    <Carousel images={imagesSrc} />
                     {!isCorrectLogoType && (
                       <ErrorMessage message="El formato del archivo es incorrecto" />
                     )}
                     <button
                       type="button"
-                      className="text-xs text-center text-gray-500 hover:text-gray-700 cursor-pointer"
+                      className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                       onClick={() => {
-                        setLogo(undefined);
+                        setImages(undefined);
+                        setImagesSrc(undefined);
                         unregister("product-img");
                       }}
                     >
-                      cambiar imagen
+                      cambiar imagenes
                     </button>
                   </div>
                 ) : (
                   <UploadImgToForm
-                    content="Sube la imagen del producto"
+                    content="Sube las imagenes del producto"
                     name="product-img"
                     message="imagen del producto"
-                    setter={setLogo}
+                    setters={[
+                      { name: "setImages", func: setImages },
+                      { name: "setImagesSrc", func: setImagesSrc },
+                    ]}
                     register={register}
                     errors={errors}
+                    moreThanOne
                   />
                 )}
               </div>
@@ -146,8 +165,9 @@ function ProductForm() {
               </button>
 
               <button
-                type="submit"
+                type="button"
                 className="inline-flex justify-center py-2 px-4 border border-black shadow-sm text-l font-medium rounded-md text-black bg-white hover:bg-gray-100 focus:outline-none focus:pointer-events-auto"
+                onClick={redirectToBack}
               >
                 ATRAS
               </button>

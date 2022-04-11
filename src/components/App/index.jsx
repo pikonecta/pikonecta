@@ -14,7 +14,7 @@ function App() {
         <Route path="/admin" element={<AdminKonecta />} />
         <Route path="/admin/create" element={<Client />} />
         <Route path="/admin/update/:id" element={<Client canEdit />} />
-        <Route path="/:id/" element={<ClientEdit />} />
+        <Route path="/:id/" element={<ClientEdit canEdit />} />
         <Route path="/:id/create" element={<ProductForm />} />
         <Route
           path="/:id/update/:idProduct"
