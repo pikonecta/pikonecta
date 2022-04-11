@@ -28,18 +28,12 @@ function Product({ name, price, images, canEdit }) {
                   more_vert
                 </button>
                 {showMenu && (
-                  <div className="rounded-lg w-36 bg-gray-100 flex flex-col absolute bottom-full left-full">
+                  <div className="rounded-lg w-36 bg-gray-100 flex flex-col absolute bottom-full left-full z-10">
                     <a
                       className="text-xls p-2 hover:bg-gray-200 rounded-lg"
                       href="#edit"
                     >
                       Editar producto
-                    </a>
-                    <a
-                      className="text-xls p-2 hover:bg-gray-200 rounded-lg"
-                      href="#edit"
-                    >
-                      Editar imagen
                     </a>
                     <a
                       className="text-xls p-2 hover:bg-gray-200 rounded-lg"
