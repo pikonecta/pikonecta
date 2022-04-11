@@ -3,7 +3,7 @@ import { getProducts, getTenant } from "@/utils/apiManager";
 import Footer from "@/components/Footer/Footer";
 import Product from "@/components/Product";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/pagination";
@@ -19,8 +19,13 @@ function ClientEdit({ canEdit = false }) {
   const productsSize = productsFiltered.length;
   const ref = useRef();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useOnClickOutside(ref, () => setShowSearch(false));
+
+  const redirectToCreate = () => {
+    navigate(`/${id}/create`);
+  };
 
   useEffect(async () => {
     const tenant = await getTenant(id);
@@ -46,16 +51,16 @@ function ClientEdit({ canEdit = false }) {
   return (
     <div className="">
       <div className=" bg-general-gray flex justify-between">
-        <div className="p-10 ">
+        <div className="p-10 inline-flex h-min">
           <span className="material-icons-outlined rounded-lg p-3 text-gray-500 items-center bg-general-blue">
             menu
           </span>
         </div>
         <div className="items-center p-5">
           <img className="center h-24 w-24" src={company?.LOGO} alt="LOGO" />
-          {/* <span className="center">{company?.name}</span> */}
+          <span className="center">{company?.COMPANY_NAME}</span>
         </div>
-        <div className="p-10">
+        <div className="p-10 inline-flex h-min">
           {showSearch && (
             <input
               className="radius-lg rounded-lg border-b p-3  text-gray-500"
@@ -66,13 +71,22 @@ function ClientEdit({ canEdit = false }) {
               }}
             />
           )}
-          {showSearch === false && (
+          {!showSearch && (
             <button
-              className="material-icons-outlined rounded-lg p-3 text-gray-500 items-center bg-general-blue "
+              className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue"
               type="button"
               onClick={() => setShowSearch((state) => !state)}
             >
               search
+            </button>
+          )}
+          {canEdit && (
+            <button
+              type="button"
+              className="rounded-lg p-3 text-gray-500 items-center bg-general-blue top-0 ml-2"
+              onClick={redirectToCreate}
+            >
+              AÑADIR
             </button>
           )}
         </div>

@@ -1,9 +1,9 @@
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import encodedLogo from "@/utils/encodedLogo";
+import encodeImage from "@/utils/encodeImage";
 
 const createTenant = async (data, logo) => {
-  const encodeLogo = await encodedLogo(logo);
+  const encodedLogo = await encodeImage(logo);
 
   const req = {
     id: uuidv4(),
@@ -16,7 +16,7 @@ const createTenant = async (data, logo) => {
     REPRESENTATIVE_PHONE: data.clientPhone,
     NIT: data.NIT,
     LOGO: {
-      encodedImage: encodeLogo,
+      encodedImage: encodedLogo,
       extension: logo.name.split(".").pop(),
     },
     ADDRESS: data.companyAddress,
@@ -49,7 +49,7 @@ const updateTenant = async (data, setLogo, logo) => {
   };
 
   if (setLogo) {
-    const encodeLogo = await encodedLogo(logo);
+    const encodeLogo = await encodeImage(logo);
     req.NEW_LOGO = {
       encodedImage: encodeLogo,
       extension: logo.name.split(".").pop(),
@@ -91,6 +91,36 @@ const getProducts = async (id) => {
   return res.data;
 };
 
+const createProduct = async (data, id, images) => {
+  const promises = [];
+  images.forEach(async (image) => {
+    const encodedImage = encodeImage(image);
+    promises.push(encodedImage);
+  });
+  const encodedImages = await Promise.all(promises);
+  const productMedia = images.map((image, index) => {
+    return {
+      id: uuidv4(),
+      encodedImage: encodedImages[index],
+      extension: image.name.split(".").pop(),
+    };
+  });
+
+  const req = {
+    tableName: `Product_${id}`,
+    id: uuidv4(),
+    name: data.name,
+    description: data.description,
+    price: data.price,
+    productMedia,
+  };
+
+  const res = await axios.post("/api/products", req, {
+    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+  });
+  return res.data;
+};
+
 export {
   createTenant,
   getTenant,
@@ -98,4 +128,5 @@ export {
   getTenants,
   deleteTenant,
   getProducts,
+  createProduct,
 };

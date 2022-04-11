@@ -29,7 +29,7 @@ function ClientForm({ canEdit = false }) {
     if (!canEdit) {
       const res = await createTenant(data, logo);
       if (res.data.statusCode === 200) {
-        navigate("/admin-konecta");
+        navigate("/admin");
         console.log("cliente creado exitosamente");
       } else {
         console.log("error al crear cliente");
@@ -41,7 +41,7 @@ function ClientForm({ canEdit = false }) {
         logo
       );
       if (res.data.statusCode === 200) {
-        navigate("/admin-konecta");
+        navigate("/admin");
         console.log("cliente editado exitosamente");
       } else {
         console.log("error al crear cliente");
@@ -119,7 +119,7 @@ function ClientForm({ canEdit = false }) {
                     )}
                     <button
                       type="button"
-                      className="text-xs text-center text-gray-500 hover:text-gray-700 cursor-pointer"
+                      className="relative cursor-pointer rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
                       onClick={() => {
                         setLogo();
                         unregister("companyLogo");
@@ -134,7 +134,10 @@ function ClientForm({ canEdit = false }) {
                     content="Sube el logo"
                     name="companyLogo"
                     message="logo"
-                    setters={{ setLogo, setLogoSrc }}
+                    setters={[
+                      { name: "setLogo", func: setLogo },
+                      { name: "setLogoSrc", func: setLogoSrc },
+                    ]}
                     register={register}
                     errors={errors}
                   />

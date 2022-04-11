@@ -1,4 +1,4 @@
-const encodedLogo = async (logo) => {
+const encodeImage = async (logo) => {
   const encodeImgToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -11,4 +11,4 @@ const encodedLogo = async (logo) => {
   return encodedImg.split(",").pop();
 };
 
-export default encodedLogo;
+export default encodeImage;
