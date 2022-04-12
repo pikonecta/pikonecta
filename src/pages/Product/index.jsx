@@ -5,20 +5,21 @@ import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import ErrorMessage from "@/components/ErrorMessage";
 import Carousel from "@/components/Carousel";
-import { createProduct } from "@/utils/apiManager";
+import { createProduct, getProduct, updateProduct } from "@/utils/apiManager";
 import { useNavigate, useParams } from "react-router-dom";
 
-function ProductForm() {
+function ProductForm(canEdit = false) {
   const {
     register,
     handleSubmit,
     unregister,
+    setValue,
     reset,
     formState: { errors },
   } = useForm();
 
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id, idProduct } = useParams();
 
   const [images, setImages] = useState([]);
   const [imagesSrc, setImagesSrc] = useState([]);
@@ -29,15 +30,30 @@ function ProductForm() {
   };
 
   const onSubmit = async (data) => {
-    const res = await createProduct(data, id, images);
-    if (res.statusCode === 200) {
-      reset();
-      setImages([]);
-      setImagesSrc([]);
-      isCorrectImagesType(false);
+    if (!canEdit) {
+      const res = await createProduct(data, id, images);
+      if (res.statusCode === 200) {
+        reset();
+        setImages([]);
+        setImagesSrc([]);
+        isCorrectImagesType(false);
+      } else {
+        console.log("error creando el producto");
+        console.log(res);
+      }
     } else {
-      console.log("error creando el producto");
-      console.log(res);
+      const res = await updateProduct(
+        { ...data, idProduct, imgs: imagesSrc },
+        id,
+        images[0] instanceof File,
+        images
+      );
+      if (res.statusCode === 200) {
+        navigate(`/${id}`);
+      } else {
+        console.log("error actualizando el producto");
+        console.log(res);
+      }
     }
   };
 
@@ -54,6 +70,26 @@ function ProductForm() {
     }
   }, [images]);
 
+  useEffect(async () => {
+    if (canEdit) {
+      const res = await getProduct(id, idProduct);
+      const { Item: currentProduct } = res;
+
+      setValue("name", currentProduct.name);
+      setValue("description", currentProduct.description);
+      setValue("price", currentProduct.price);
+      setValue("type", currentProduct.type);
+      setImagesSrc(currentProduct.imgs);
+      const currentImgs = currentProduct.imgs.map((img) => {
+        return {
+          src: img,
+          type: "image/png",
+        };
+      });
+      setImages(currentImgs);
+    }
+  }, []);
+
   return (
     <div className="grid grid-cols-3 gap-3 gap-x-6 min-h-fit h-screen">
       <div className="col-span-1">
@@ -63,7 +99,7 @@ function ProductForm() {
         <form action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>
           <div className=" bg-white space-y-6 p-4 pr-10 ">
             <h1 className="text-6xl font-bold leading-6 text-sky-700 py-10">
-              Añadir producto
+              {canEdit ? "Editar" : "Añadir"} producto
             </h1>
             <div className="grid grid-cols-3 gap-3">
               <div className="col-span-2 grid gap-6">
