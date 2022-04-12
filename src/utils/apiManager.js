@@ -96,6 +96,18 @@ const deleteProduct = async (id, productId) => {
   return res;
 };
 
+const getProduct = async (id, productId) => {
+  const res = await axios.get(
+    `/api/products/product?tableName=Product_${id}&id=${productId}`,
+    {
+      headers: {
+        Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+      },
+    }
+  );
+  return res.data;
+};
+
 const getProducts = async (id) => {
   const res = await axios.get(`/api/products?tableName=Product_${id}`, {
     Authorization: import.meta.env.VITE_ADMIN_TOKEN,
@@ -133,6 +145,41 @@ const createProduct = async (data, id, images) => {
   return res.data;
 };
 
+const updateProduct = async (data, id, setImages, images) => {
+  const req = {
+    tableName: `Product_${id}`,
+    id: data.idProduct,
+    name: data.name,
+    description: data.description,
+    price: data.price,
+  };
+
+  if (setImages) {
+    const promises = [];
+    images.forEach(async (image) => {
+      const encodedImage = encodeImage(image);
+      promises.push(encodedImage);
+    });
+    const encodedImages = await Promise.all(promises);
+    const productMedia = images.map((image, index) => {
+      return {
+        id: uuidv4(),
+        encodedImage: encodedImages[index],
+        extension: image.name.split(".").pop(),
+      };
+    });
+    req.productMedia = productMedia;
+    req.NEW_MEDIA = true;
+  } else {
+    req.CURRENT_MEDIA = data.imgs;
+  }
+
+  const res = await axios.put(`/api/products/product`, req, {
+    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+  });
+  return res.data;
+};
+
 export {
   createTenant,
   getTenant,
@@ -140,6 +187,8 @@ export {
   getTenants,
   deleteTenant,
   getProducts,
+  getProduct,
   createProduct,
   deleteProduct,
+  updateProduct,
 };
