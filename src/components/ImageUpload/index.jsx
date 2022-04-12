@@ -1,9 +1,31 @@
-import PropTypes from "prop-types";
 import ErrorMessage from "../ErrorMessage";
 
-function UploadImgToForm({ content, name, message, setter, register, errors }) {
+function UploadImgToForm({
+  content,
+  name,
+  message,
+  setters,
+  register,
+  errors,
+  moreThanOne = false,
+}) {
   const handleSubmitImg = (e) => {
-    setter(e.target.files[0]);
+    setters.forEach((setter) => {
+      if (setter.name === "setImages") {
+        setter.func([...e.target.files]);
+      } else if (setter.name === "setLogo") {
+        setter.func(e.target.files[0]);
+      } else if (setter.name === "setLogoSrc") {
+        setter.func(URL.createObjectURL(e.target.files[0]));
+      } else if (setter.name === "setImagesSrc") {
+        const files = [...e.target.files];
+        const images = [];
+        files.forEach((file) => {
+          images.push(URL.createObjectURL(file));
+        });
+        setter.func(images);
+      }
+    });
   };
 
   return (
@@ -32,8 +54,6 @@ function UploadImgToForm({ content, name, message, setter, register, errors }) {
             {...register(name, {
               required: true,
               validate: {
-                lessThan10MB: (files) =>
-                  files[0]?.size < 10000000 || "Max 10MB",
                 acceptedFormats: (files) =>
                   ["image/jpeg", "image/png"].includes(files[0]?.type) ||
                   "solo son permitidos los siguientes formatos: PNG y JPEG",
@@ -42,6 +62,7 @@ function UploadImgToForm({ content, name, message, setter, register, errors }) {
             id="file-upload"
             name="file-upload"
             type="file"
+            multiple={moreThanOne}
             className="sr-only"
             accept="image/png, image/jpeg"
             onChange={handleSubmitImg}
@@ -56,9 +77,5 @@ function UploadImgToForm({ content, name, message, setter, register, errors }) {
     </div>
   );
 }
-
-UploadImgToForm.propTypes = {
-  content: PropTypes.string.isRequired,
-};
 
 export default UploadImgToForm;

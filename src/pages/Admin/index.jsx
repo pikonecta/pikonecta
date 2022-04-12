@@ -1,11 +1,12 @@
 import Sidebar from "@/components/Sidebar";
-import CompaniesMock from "@/assets/companies.json";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getTenants } from "@/utils/apiManager";
 import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
-} from "./components/Pagination";
+} from "../../components/pagination";
 
 function AdminKonecta() {
   const [inputValue, setInputValue] = useState("");
@@ -13,15 +14,32 @@ function AdminKonecta() {
   const [companiesFiltered, setCompaniesFiltered] = useState([]);
   const [companiesPerPage, setCompaniesPerPage] = useState([]);
   const [page, setPage] = useState(1);
+  const [deletedItem, setDeletedItem] = useState(null);
   const companiesSize = companiesFiltered.length;
 
-  useEffect(() => {
-    setCompanies(CompaniesMock.companies);
+  const navigate = useNavigate();
+
+  useEffect(async () => {
+    const res = await getTenants();
+    const tenants = JSON.parse(res.body).Items;
+    setCompanies(tenants);
   }, []);
 
   useEffect(() => {
+    if (deletedItem) {
+      setDeletedItem(null);
+      const filtered = companies.filter(
+        (company) => company.id !== deletedItem
+      );
+      setCompanies([...filtered]);
+    }
+  }, [deletedItem]);
+
+  useEffect(() => {
     const filter = companies.filter((company) => {
-      return company.name.toLowerCase().includes(inputValue.toLowerCase());
+      return company.COMPANY_NAME.toLowerCase().includes(
+        inputValue.toLowerCase()
+      );
     });
     setCompaniesFiltered(filter);
   }, [inputValue, companies]);
@@ -32,10 +50,14 @@ function AdminKonecta() {
     setCompaniesPerPage(companiesFiltered.slice(start, end));
   }, [page, companiesFiltered]);
 
+  const redirectToCreate = () => {
+    navigate(`/admin/create`);
+  };
+
   return (
     <div className="flex flex-row w-full">
       <div className="basis-1/4 max-w-sm">
-        <Sidebar className="sticky top-0" />
+        <Sidebar />
       </div>
       <div className="w-full">
         <div className="flex flex-row justify-between py-10 px-5">
@@ -48,22 +70,25 @@ function AdminKonecta() {
           <button
             className="bg-sidebar-color px-8 text-gray-500 hover:shadow-sm hover:bg-sidebar-color-dark hover:text-white rounded-lg mr-2 py-2"
             type="button"
+            onClick={redirectToCreate}
           >
             Añadir
           </button>
         </div>
         <div className="grid grid-cols-1 gap-16 p-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {companiesPerPage.length === 0 && <>Loading...</>}
           {companiesPerPage.map((company, index) => {
             return (
               <CompanyCard
-                name={company.name}
-                city={company.city}
-                address={company.address}
-                phone={company.phone}
-                imageUrl={company.imageUrl}
+                name={company.COMPANY_NAME}
+                city={company.CITY}
+                address={company.ADDRESS}
+                phone={company.REPRESENTATIVE_PHONE}
+                imageUrl={company.LOGO}
                 id={company.id}
                 key={company.id}
                 isAlt={!(index % 2)}
+                setter={setDeletedItem}
               />
             );
           })}

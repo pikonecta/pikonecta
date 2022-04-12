@@ -4,28 +4,91 @@ import Sidebar from "@/components/Sidebar";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import ErrorMessage from "@/components/ErrorMessage";
+import Carousel from "@/components/Carousel";
+import { createProduct, getProduct, updateProduct } from "@/utils/apiManager";
+import { useNavigate, useParams } from "react-router-dom";
 
-function ProductForm() {
+function ProductForm(canEdit = false) {
   const {
     register,
     handleSubmit,
     unregister,
+    setValue,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const [logo, setLogo] = useState(undefined);
-  const [isCorrectLogoType, setIsCorrectLogoType] = useState(false);
+  const navigate = useNavigate();
+  const { id, idProduct } = useParams();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [images, setImages] = useState([]);
+  const [imagesSrc, setImagesSrc] = useState([]);
+  const [isCorrectImagesType, setIsCorrectImagesType] = useState(false);
+
+  const redirectToProducts = () => {
+    navigate(`/${id}`);
+  };
+
+  const onSubmit = async (data) => {
+    if (!canEdit) {
+      const res = await createProduct(data, id, images);
+      if (res.statusCode === 200) {
+        reset();
+        setImages([]);
+        setImagesSrc([]);
+        isCorrectImagesType(false);
+      } else {
+        console.log("error creando el producto");
+        console.log(res);
+      }
+    } else {
+      const res = await updateProduct(
+        { ...data, idProduct, imgs: imagesSrc },
+        id,
+        images[0] instanceof File,
+        images
+      );
+      if (res.statusCode === 200) {
+        navigate(`/${id}`);
+      } else {
+        console.log("error actualizando el producto");
+        console.log(res);
+      }
+    }
   };
 
   useEffect(() => {
-    if (logo) {
-      const { type } = logo;
-      setIsCorrectLogoType(["image/jpeg", "image/png"].includes(type));
+    const currentImgsCorrectTypes = [];
+    if (images.length > 0) {
+      images.forEach((image) => {
+        const { type } = image;
+        currentImgsCorrectTypes.push(
+          ["image/jpeg", "image/png"].includes(type)
+        );
+      });
+      setIsCorrectImagesType(!currentImgsCorrectTypes.includes(false));
     }
-  }, [logo]);
+  }, [images]);
+
+  useEffect(async () => {
+    if (canEdit) {
+      const res = await getProduct(id, idProduct);
+      const { Item: currentProduct } = res;
+
+      setValue("name", currentProduct.name);
+      setValue("description", currentProduct.description);
+      setValue("price", currentProduct.price);
+      setValue("type", currentProduct.type);
+      setImagesSrc(currentProduct.imgs);
+      const currentImgs = currentProduct.imgs.map((img) => {
+        return {
+          src: img,
+          type: "image/png",
+        };
+      });
+      setImages(currentImgs);
+    }
+  }, []);
 
   return (
     <div className="grid grid-cols-3 gap-3 gap-x-6 min-h-fit h-screen">
@@ -36,7 +99,7 @@ function ProductForm() {
         <form action="#" method="POST" onSubmit={handleSubmit(onSubmit)}>
           <div className=" bg-white space-y-6 p-4 pr-10 ">
             <h1 className="text-6xl font-bold leading-6 text-sky-700 py-10">
-              Añadir producto
+              {canEdit ? "Editar" : "Añadir"} producto
             </h1>
             <div className="grid grid-cols-3 gap-3">
               <div className="col-span-2 grid gap-6">
@@ -70,21 +133,18 @@ function ProductForm() {
               </div>
 
               <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 h-56 border-gray-300 border-dashed rounded-md bg-sky-100">
-                {logo ? (
+                {images.length > 0 ? (
                   <div className="h-full flex flex-col justify-center">
-                    <img
-                      alt="product"
-                      src={URL.createObjectURL(logo)}
-                      className="h-full"
-                    />
-                    {!isCorrectLogoType && (
-                      <ErrorMessage message="El formato del archivo es incorrecto" />
+                    <Carousel images={imagesSrc} />
+                    {!isCorrectImagesType && (
+                      <ErrorMessage message="El formato de algún archivo es incorrecto" />
                     )}
                     <button
                       type="button"
                       className="text-xs text-center text-gray-500 hover:text-gray-700 cursor-pointer"
                       onClick={() => {
-                        setLogo(undefined);
+                        setImages([]);
+                        setImagesSrc([]);
                         unregister("product-img");
                       }}
                     >
@@ -96,7 +156,11 @@ function ProductForm() {
                     content="Sube la imagen del producto"
                     name="product-img"
                     message="imagen del producto"
-                    setter={setLogo}
+                    setters={[
+                      { name: "setImages", func: setImages },
+                      { name: "setImagesSrc", func: setImagesSrc },
+                    ]}
+                    moreThanOne
                     register={register}
                     errors={errors}
                   />
@@ -115,10 +179,6 @@ function ProductForm() {
                     {...register("type")}
                   />
                 </FormElement>
-              </div>
-              <div className="flex flex-col">
-                ¿desea añadir otro tipo de producto?
-                <button type="button">añadir</button>
               </div>
             </div>
 
@@ -146,8 +206,9 @@ function ProductForm() {
               </button>
 
               <button
-                type="submit"
+                type="button"
                 className="inline-flex justify-center py-2 px-4 border border-black shadow-sm text-l font-medium rounded-md text-black bg-white hover:bg-gray-100 focus:outline-none focus:pointer-events-auto"
+                onClick={redirectToProducts}
               >
                 ATRAS
               </button>

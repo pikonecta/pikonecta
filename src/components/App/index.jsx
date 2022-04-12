@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import Client from "@/pages/Client";
 import ProductForm from "@/pages/Product";
-import GeneralProduct from "@/pages/Product/GeneralProduct";
 import AdminKonecta from "@/pages/Admin";
+import ClientEdit from "@/pages/ClientEdit";
 import Login from "@/pages/Login";
 import { Account } from "../Account";
 
@@ -11,10 +11,15 @@ function App() {
     <Account>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/client" element={<Client />} />
-        <Route path="/product" element={<ProductForm />} />
-        <Route path="/general" element={<GeneralProduct />} />
-        <Route path="/admin-konecta" element={<AdminKonecta />} />
+        <Route path="/admin" element={<AdminKonecta />} />
+        <Route path="/admin/create" element={<Client />} />
+        <Route path="/admin/update/:id" element={<Client canEdit />} />
+        <Route path="/:id/" element={<ClientEdit />} />
+        <Route path="/:id/create" element={<ProductForm />} />
+        <Route
+          path="/:id/update/:idProduct"
+          element={<ProductForm canEdit />}
+        />
       </Routes>
     </Account>
   );
