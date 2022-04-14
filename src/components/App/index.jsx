@@ -4,24 +4,57 @@ import ProductForm from "@/pages/Product";
 import AdminKonecta from "@/pages/Admin";
 import ClientEdit from "@/pages/ClientEdit";
 import Login from "@/pages/Login";
-import { Account } from "../Account";
+import { AccountProvider } from "@/contexts/Account";
+import PrivateRoute from "../PrivateRoute";
 
 function App() {
   return (
-    <Account>
+    <AccountProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<AdminKonecta />} />
-        <Route path="/admin/create" element={<Client />} />
-        <Route path="/admin/update/:id" element={<Client canEdit />} />
         <Route path="/:id/" element={<ClientEdit />} />
-        <Route path="/:id/create" element={<ProductForm />} />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute requiredGroup="admin">
+              <AdminKonecta />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/create"
+          element={
+            <PrivateRoute requiredGroup="admin">
+              <Client />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/update/:id"
+          element={
+            <PrivateRoute requiredGroup="admin">
+              <Client canEdit />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/:id/create"
+          element={
+            <PrivateRoute>
+              <ProductForm />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/:id/update/:idProduct"
-          element={<ProductForm canEdit />}
+          element={
+            <PrivateRoute>
+              <ProductForm canEdit />
+            </PrivateRoute>
+          }
         />
       </Routes>
-    </Account>
+    </AccountProvider>
   );
 }
 
