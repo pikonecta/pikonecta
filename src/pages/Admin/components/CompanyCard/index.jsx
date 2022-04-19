@@ -78,7 +78,7 @@ function CompanyCard({
           EDITAR
         </button>
         <Modal
-          title={`Eliminar ${name}`}
+          title="Eliminar"
           text={`¿Está seguro que quiere eliminar a ${name}?`}
           setter={setIsDeleting}
         />
