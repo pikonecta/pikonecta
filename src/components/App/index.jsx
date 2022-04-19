@@ -40,7 +40,7 @@ function App() {
         <Route
           path="/:id/create"
           element={
-            <PrivateRoute>
+            <PrivateRoute requiredGroup="client">
               <ProductForm />
             </PrivateRoute>
           }
@@ -48,7 +48,7 @@ function App() {
         <Route
           path="/:id/update/:idProduct"
           element={
-            <PrivateRoute>
+            <PrivateRoute requiredGroup="client">
               <ProductForm canEdit />
             </PrivateRoute>
           }
