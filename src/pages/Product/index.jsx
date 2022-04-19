@@ -56,10 +56,10 @@ function ProductForm({ canEdit = false }) {
         images
       );
       if (res.statusCode === 200) {
-        isLoading(false);
+        setIsLoading(false);
         navigate(`/${id}`);
       } else {
-        isLoading(false);
+        setIsLoading(false);
         console.log("error actualizando el producto", res);
       }
     }
@@ -84,7 +84,7 @@ function ProductForm({ canEdit = false }) {
 
   useEffect(async () => {
     if (canEdit) {
-      isLoading(true);
+      setIsLoading(true);
       const res = await getProduct(id, idProduct);
       const { Item: currentProduct } = res;
 
@@ -100,7 +100,7 @@ function ProductForm({ canEdit = false }) {
         };
       });
       setImages(currentImgs);
-      isLoading(false);
+      setIsLoading(false);
     }
   }, []);
 
