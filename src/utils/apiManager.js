@@ -70,6 +70,13 @@ const getTenant = async (id) => {
   return res.data;
 };
 
+const getTenantByEmail = async (email) => {
+  const res = await axios.get(`/api/tenants/tenant/email/?email=${email}`, {
+    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+  });
+  return res.data;
+};
+
 const getTenants = async () => {
   const res = await axios.get(`/api/tenants`, {
     Authorization: import.meta.env.VITE_ADMIN_TOKEN,
@@ -183,6 +190,7 @@ const updateProduct = async (data, id, setImages, images) => {
 export {
   createTenant,
   getTenant,
+  getTenantByEmail,
   updateTenant,
   getTenants,
   deleteTenant,

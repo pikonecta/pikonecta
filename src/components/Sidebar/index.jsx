@@ -1,10 +1,13 @@
 import cn from "classnames";
 import logo from "@/assets/logo-konecta.svg";
 import { useNavigate } from "react-router-dom";
+import useAccount from "@/hooks/useAccount";
 
 function Sidebar({ className }) {
   const navigate = useNavigate();
+  const { logout } = useAccount();
   const redirectToLogin = () => {
+    logout();
     navigate("/login");
   };
   return (
