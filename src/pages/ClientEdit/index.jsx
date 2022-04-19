@@ -4,11 +4,13 @@ import Footer from "@/components/Footer/Footer";
 import Product from "@/components/Product";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
 import { useNavigate, useParams } from "react-router-dom";
+import useAccount from "@/hooks/useAccount";
+import Loader from "@/components/Loader";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/pagination";
 
-function ClientEdit({ canEdit = false }) {
+function ClientEdit() {
   const [company, setCompany] = useState();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -17,10 +19,13 @@ function ClientEdit({ canEdit = false }) {
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [productsPerPage, setProductsPerPage] = useState([]);
   const [deletedItem, setDeletedItem] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const productsSize = productsFiltered.length;
   const ref = useRef();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { hasTenant, logout } = useAccount();
+  const canEdit = hasTenant(id);
 
   useOnClickOutside(ref, () => setShowSearch(false));
 
@@ -28,9 +33,13 @@ function ClientEdit({ canEdit = false }) {
     navigate(`/${id}/create`);
   };
 
+  const redirectToLogin = () => {
+    logout();
+    navigate("/login");
+  };
+
   useEffect(() => {
     if (deletedItem) {
-      console.log(deletedItem);
       setDeletedItem(null);
       const filtered = products.filter((product) => product.id !== deletedItem);
       setProducts([...filtered]);
@@ -43,6 +52,10 @@ function ClientEdit({ canEdit = false }) {
 
     const product = await getProducts(id);
     setProducts(product.Items);
+
+    if (tenant && product) {
+      setIsLoading(false);
+    }
   }, []);
 
   useEffect(() => {
@@ -58,13 +71,20 @@ function ClientEdit({ canEdit = false }) {
     setProductsPerPage(productsFiltered.slice(start, end));
   }, [page, productsFiltered]);
 
+  if (isLoading) return <Loader />;
   return (
-    <div className="">
+    <>
       <div className=" bg-general-gray flex justify-between">
         <div className="p-10 inline-flex h-min">
-          <span className="material-icons-outlined rounded-lg p-3 text-gray-500 items-center bg-general-blue">
-            menu
-          </span>
+          {canEdit && (
+            <button
+              type="button"
+              className="material-icons-outlined rounded-lg p-3 text-gray-500 items-center bg-general-blue"
+              onClick={redirectToLogin}
+            >
+              logout
+            </button>
+          )}
         </div>
         <div className="items-center p-5">
           <img className="center h-24 w-24" src={company?.LOGO} alt="LOGO" />
@@ -130,7 +150,7 @@ function ClientEdit({ canEdit = false }) {
           telephone={company?.COMPANY_PHONE}
         />
       </div>
-    </div>
+    </>
   );
 }
 

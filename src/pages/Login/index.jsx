@@ -1,7 +1,9 @@
-import { useState, useContext } from "react";
-import { AccountContext } from "@/components/Account";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "@/components/ErrorMessage";
+import { getTenantByEmail } from "@/utils/apiManager";
+import { useNavigate } from "react-router-dom";
+import useAccount from "@/hooks/useAccount";
 
 function Login() {
   const {
@@ -12,43 +14,63 @@ function Login() {
   } = useForm();
 
   const [isChangingPassword, setIsChangingPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [loginError, setLoginError] = useState();
+  const navigate = useNavigate();
 
-  const { authenticate, confirmPassword, logout, getSession } =
-    useContext(AccountContext);
+  const { authenticate, confirmPassword } = useAccount();
 
-  const handleChangingPassword = (data) => {
+  const getUserType = async (email) => {
+    const res = await getTenantByEmail(email);
+    return res;
+  };
+
+  const handleChangingPassword = async (data) => {
     const { password, newPassword, newPasswordValidator, email } = data;
     if (newPassword !== newPasswordValidator) {
       setLoginError("Las contraseñas no coinciden");
       return;
     }
-    confirmPassword(email, password, newPassword)
-      .then((result) => {
-        setLoginError();
-        console.log(result); // redirigir a la pagina correspondiente
-      })
-      .catch((error) => {
-        setLoginError(error);
-      });
+    try {
+      setIsLoading(true);
+      await confirmPassword(email, password, newPassword);
+      setLoginError();
+      const userType = await getUserType(email);
+      const { id } = userType.Items[0];
+      setIsLoading(false);
+      navigate(`/${id}`);
+    } catch (err) {
+      setLoginError(err);
+      setIsLoading(false);
+    }
   };
 
-  const handleLogin = (data) => {
+  const handleLogin = async (data) => {
     const { email, password } = data;
-    authenticate(email, password)
-      .then((response) => {
-        if (response === "newPasswordRequired") {
-          setIsChangingPassword(true);
-          setValue("newPassword", "");
-          setValue("newPasswordValidator", "");
-        } else {
-          setLoginError();
-          console.log(response); // redirigir a pagina correspondiente
+    try {
+      setIsLoading(true);
+      const res = await authenticate(email, password);
+      if (res === "newPasswordRequired") {
+        setIsChangingPassword(true);
+        setValue("newPassword", "");
+        setValue("newPasswordValidator", "");
+      } else {
+        setLoginError();
+        if (res.idToken.payload["cognito:groups"][0] === "admin") {
+          setIsLoading(false);
+          navigate("/admin");
         }
-      })
-      .catch(() => {
-        setLoginError("Usuario o contraseña inválidos");
-      });
+        if (res.idToken.payload["cognito:groups"][0] === "client") {
+          setIsLoading(false);
+          const userType = await getUserType(email);
+          const { id } = userType.Items[0];
+          navigate(`/${id}`);
+        }
+      }
+    } catch (_) {
+      setLoginError("Usuario o contraseña inválidos");
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -93,6 +115,7 @@ function Login() {
                 <ErrorMessage message="Debe de escribir la contraseña" />
               )}
 
+              {isLoading && <div className="text-center">Cargando...</div>}
               <div className="flex justify-around">
                 <button
                   type="submit"
@@ -148,7 +171,7 @@ function Login() {
             </div>
           )}
 
-          {!isChangingPassword && (
+          {/* {!isChangingPassword && (
             <button
               onClick={() => {
                 getSession().then((data) => {
@@ -161,7 +184,7 @@ function Login() {
             >
               ¿Olvidaste la contraseña?
             </button>
-          )}
+          )} */}
         </div>
       </div>
     </div>
