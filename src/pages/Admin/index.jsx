@@ -2,6 +2,7 @@ import Sidebar from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getTenants } from "@/utils/apiManager";
+import Loader from "@/components/Loader";
 import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
 import Pagination, {
@@ -76,7 +77,7 @@ function AdminKonecta() {
           </button>
         </div>
         <div className="grid grid-cols-1 gap-16 p-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {companiesPerPage.length === 0 && <>Loading...</>}
+          {companiesPerPage.length === 0 && <Loader />}
           {companiesPerPage.map((company, index) => {
             return (
               <CompanyCard

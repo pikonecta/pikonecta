@@ -1,16 +1,17 @@
 // import useAccount from "@/hooks/useAccount";
 import useAuth from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
+import Loader from "../Loader";
 
 function PrivateRoute({ children, requiredGroup }) {
   const { loading, user } = useAuth();
 
   if (loading) {
-    return <>Cargando</>;
+    return <Loader />;
   }
   if (user) {
     if (requiredGroup) {
-      return user.groups.includes(requiredGroup) ? (
+      return user.user.groups.includes(requiredGroup) ? (
         children
       ) : (
         <Navigate to="/login" />
