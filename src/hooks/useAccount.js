@@ -1,16 +1,18 @@
 import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import Pool from "@/config/UserPool";
 import { useAccountState, useAccountDispatch } from "@/contexts/Account";
+import { getTenantByEmail } from "@/utils/apiManager";
 
 const useAccount = () => {
   const accountState = useAccountState();
+  const user = accountState?.user?.user;
   const accountDispatch = useAccountDispatch();
 
   const confirmPassword = (Username, Password, NewPassword) => {
     return new Promise((resolve, reject) => {
-      const user = new CognitoUser({ Username, Pool });
+      const currentUser = new CognitoUser({ Username, Pool });
       const authDetails = new AuthenticationDetails({ Username, Password });
-      user.authenticateUser(authDetails, {
+      currentUser.authenticateUser(authDetails, {
         onSuccess: (data) => {
           resolve(data);
         },
@@ -18,8 +20,22 @@ const useAccount = () => {
           reject(error);
         },
         newPasswordRequired: (_, req) => {
-          user.completeNewPasswordChallenge(NewPassword, req, {
+          currentUser.completeNewPasswordChallenge(NewPassword, req, {
             onSuccess: (data) => {
+              getTenantByEmail(data.idToken.payload.email).then(
+                (dataTenant) => {
+                  accountDispatch({
+                    type: "setUser",
+                    payload: {
+                      user: {
+                        groups: data.idToken.payload["cognito:groups"],
+                        original: { ...data },
+                        tenant: dataTenant.Items[0],
+                      },
+                    },
+                  });
+                }
+              );
               resolve(data);
             },
             onFailure: (error) => {
@@ -33,22 +49,47 @@ const useAccount = () => {
 
   const authenticate = async (Username, Password) => {
     return new Promise((resolve, reject) => {
-      const user = new CognitoUser({ Username, Pool });
+      const currentUser = new CognitoUser({ Username, Pool });
 
       const authDetails = new AuthenticationDetails({ Username, Password });
 
-      user.authenticateUser(authDetails, {
+      currentUser.authenticateUser(authDetails, {
         onSuccess: (data) => {
           accountDispatch({
             type: "setUser",
             payload: {
               user: {
                 groups: data.idToken.payload["cognito:groups"],
-                username: data.idToken.payload.username,
+                email: data.idToken.payload.email,
                 original: { ...data },
               },
             },
           });
+          if (data.idToken.payload["cognito:groups"].includes("admin")) {
+            accountDispatch({
+              type: "setUser",
+              payload: {
+                user: {
+                  groups: data.idToken.payload["cognito:groups"],
+                  email: data.idToken.payload.email,
+                  original: { ...data },
+                },
+              },
+            });
+          } else {
+            getTenantByEmail(data.idToken.payload.email).then((dataTenant) => {
+              accountDispatch({
+                type: "setUser",
+                payload: {
+                  user: {
+                    groups: data.idToken.payload["cognito:groups"],
+                    original: { ...data },
+                    tenant: dataTenant.Items[0],
+                  },
+                },
+              });
+            });
+          }
           resolve(data);
         },
         onFailure: (err) => {
@@ -62,9 +103,12 @@ const useAccount = () => {
   };
 
   const logout = () => {
-    const user = Pool.getCurrentUser();
-    if (user) {
-      user.signOut();
+    const currentUser = Pool.getCurrentUser();
+    if (currentUser) {
+      currentUser.signOut();
+      accountDispatch({
+        type: "resetUser",
+      });
     }
   };
 
@@ -73,11 +117,11 @@ const useAccount = () => {
   };
 
   const hasTenant = (tenantId) => {
-    return accountState.user && accountState.user.tenant.id === tenantId;
+    return user && user.tenant.id === tenantId;
   };
 
   return {
-    user: accountState.user,
+    user,
     hasTenant,
     hasGroup,
     authenticate,
