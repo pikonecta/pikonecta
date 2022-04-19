@@ -60,7 +60,7 @@ function ClientEdit() {
 
   useEffect(() => {
     const filter = products.filter((product) => {
-      return product.name.toLowerCase().includes(inputValue);
+      return product.name.toLowerCase().includes(inputValue.toLowerCase());
     });
     setProductsFiltered(filter);
   }, [inputValue, products]);
