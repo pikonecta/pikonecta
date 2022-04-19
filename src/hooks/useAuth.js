@@ -20,6 +20,20 @@ const useAuth = () => {
           if (err) {
             setLoading(false);
             navigate("/login");
+          } else if (
+            session.idToken.payload["cognito:groups"].includes("admin")
+          ) {
+            accountDispatch({
+              type: "setUser",
+              payload: {
+                user: {
+                  groups: session.idToken.payload["cognito:groups"],
+                  email: session.idToken.payload.email,
+                  original: { ...session },
+                },
+              },
+            });
+            setLoading(false);
           } else {
             getTenantByEmail(session.idToken.payload.email).then((data) => {
               accountDispatch({
@@ -27,9 +41,8 @@ const useAuth = () => {
                 payload: {
                   user: {
                     groups: session.idToken.payload["cognito:groups"],
-                    username: session.idToken.payload.username,
                     original: { ...session },
-                    tenant: data.Items[0],
+                    tenant: data.Items[0] && data.Items[0],
                   },
                 },
               });
