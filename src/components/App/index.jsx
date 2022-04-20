@@ -11,7 +11,7 @@ function App() {
   return (
     <AccountProvider>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/:id/" element={<ClientEdit />} />
         <Route
           path="/admin"
