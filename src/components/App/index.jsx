@@ -6,13 +6,15 @@ import ClientEdit from "@/pages/ClientEdit";
 import Login from "@/pages/Login";
 import { AccountProvider } from "@/contexts/Account";
 import PrivateRoute from "../PrivateRoute";
+import SideBarShop from "../SideBarShop";
 
 function App() {
   return (
     <AccountProvider>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/:id/" element={<ClientEdit />} />
+        <Route path="/:id/side" element={<SideBarShop />} />
         <Route
           path="/admin"
           element={
@@ -53,6 +55,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="*" element={<Login />} />
       </Routes>
     </AccountProvider>
   );
