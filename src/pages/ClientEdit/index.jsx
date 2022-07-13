@@ -79,7 +79,7 @@ function ClientEdit() {
   if (isLoading) return <Loader />;
   return (
     <>
-      <div className=" bg-general-gray flex justify-between">
+      <div className=" flex bg-general-gray justify-between">
         <div className="p-10 inline-flex h-min">
           {canEdit && (
             <button
@@ -124,7 +124,7 @@ function ClientEdit() {
             {!showSearch && (
               <div>
                 <button
-                  className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
+                  className=" material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
                   type="button"
                   onClick={showSideBar}
                 >
@@ -136,18 +136,18 @@ function ClientEdit() {
           <div className="flex fixed z-10 right-0 top-0 ">
             {sidebar ? (
               <>
-                <div>
+                <div className="flex">
                   <SideBarShop
-                    className="flex justify-center "
+                    className="flex justify-center"
                     active={setSidebar}
                   />
                 </div>
-                <div className="opacity-25 w-2/3  fixed inset-0 z-40 bg-black" />
+                <div className="opacity-25 w-2/3 lg:fixed inset-0 z-40 bg-black" />
               </>
             ) : null}
           </div>
 
-          <div>
+          <div className="my-2">
             {canEdit && (
               <button
                 type="button"

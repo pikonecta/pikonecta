@@ -13,8 +13,8 @@ function ProductSide({ name, price, close }) {
   //     }
   //   };
 
-  const closeProduct = () => {
-    close(true);
+  const deleteProduct = () => {
+    close(false);
   };
 
   const [count, setCount] = useState(1);
@@ -25,15 +25,13 @@ function ProductSide({ name, price, close }) {
     setCount(count + 1);
   };
 
-  const total = "50.000";
-
   return (
     <div>
-      <div className="grid grid-cols-2 mx-6 bg-sidebar-product rounded h-48">
+      <div className="grid grid-cols-2 mx-6 my-2 bg-sidebar-product rounded h-48">
         <div className="flex">
           <div className="grid grid-cols-2 m-4">
             <img
-              className="w-40 h-32 rounded"
+              className="w-32 h-32 rounded"
               src="https://www.w3schools.com/images/w3schools_green.jpg"
               alt="W3Schools.com"
             />
@@ -66,25 +64,11 @@ function ProductSide({ name, price, close }) {
           <button
             className="text-gray-800 font-bold "
             type="button"
-            onClick={closeProduct}
+            onClick={deleteProduct}
           >
             X
           </button>
         </div>
-      </div>
-      <div className="flex p-4 mx-4 my-10 bg-sidebar-product rounded">
-        <span className="text-gray-800 font-bold">SUBTOTAL</span>
-        <span className=" text-gray-800 font-bold mx-60 container">
-          ${total}
-        </span>
-      </div>
-      <div>
-        <button
-          className="flex w-48 h-8 m-4 mx-60 items-center justify-center bg-sidebar-title text-slate-50 font-bold rounded-md"
-          type="button"
-        >
-          FINALIZAR PEDIDO
-        </button>
       </div>
     </div>
   );
