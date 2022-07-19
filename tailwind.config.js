@@ -17,8 +17,13 @@ module.exports = {
         "sidebar-color-dark": "#4B86BB",
         "general-blue": "#D2DFFF",
         "general-gray": "#F9F9F9",
+        "sidebar-title": "#5281B4",
+        "sidebar-bg": "#F5F8FE",
+        "sidebar-product": "#F5F5F5",
+        "sidebar-amount": "#E5E5E5",
         "general-gray-dark": "#868686",
         "general-gray-darker": "#808080",
+
       },
     },
   },

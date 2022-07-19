@@ -6,6 +6,7 @@ import useOnClickOutside from "@/hooks/useOnClickOutside";
 import { useNavigate, useParams } from "react-router-dom";
 import useAccount from "@/hooks/useAccount";
 import Loader from "@/components/Loader";
+import SideBarShop from "@/components/SideBarShop";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/pagination";
@@ -18,6 +19,7 @@ function ClientEdit() {
   const [inputValue, setInputValue] = useState("");
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [productsPerPage, setProductsPerPage] = useState([]);
+  // const [productsSideBar, setProductsSideBar] = useState([]);
   const [deletedItem, setDeletedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const productsSize = productsFiltered.length;
@@ -26,8 +28,11 @@ function ClientEdit() {
   const navigate = useNavigate();
   const { hasTenant, logout } = useAccount();
   const canEdit = hasTenant(id);
+  const [sidebar, setSidebar] = useState(false);
+  const showSideBar = () => setSidebar(!sidebar);
 
   useOnClickOutside(ref, () => setShowSearch(false));
+  // useOnClickOutside(ref, () => showSideBar(!sidebar));
 
   const redirectToCreate = () => {
     navigate(`/${id}/create`);
@@ -74,7 +79,7 @@ function ClientEdit() {
   if (isLoading) return <Loader />;
   return (
     <>
-      <div className=" bg-general-gray flex justify-between">
+      <div className=" flex bg-general-gray justify-between">
         <div className="p-10 inline-flex h-min">
           {canEdit && (
             <button
@@ -91,36 +96,71 @@ function ClientEdit() {
           <span className="center">{company?.COMPANY_NAME}</span>
         </div>
         <div className="p-10 inline-flex h-min">
-          {showSearch && (
-            <input
-              className="radius-lg rounded-lg border-b p-3  text-gray-500"
-              placeholder="Busqueda"
-              ref={ref}
-              onChange={(search) => {
-                setInputValue(search.target.value);
-              }}
-            />
-          )}
-          {!showSearch && (
-            <button
-              className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue"
-              type="button"
-              onClick={() => setShowSearch((state) => !state)}
-            >
-              search
-            </button>
-          )}
-          {canEdit && (
-            <button
-              type="button"
-              className="rounded-lg p-3 text-gray-500 items-center bg-general-blue top-0 ml-2"
-              onClick={redirectToCreate}
-            >
-              AÑADIR
-            </button>
-          )}
+          <div>
+            {showSearch && (
+              <input
+                className="radius-lg rounded-lg border-b p-3  text-gray-500"
+                placeholder="Busqueda"
+                ref={ref}
+                onChange={(search) => {
+                  setInputValue(search.target.value);
+                }}
+              />
+            )}
+          </div>
+          <div>
+            {!showSearch && (
+              <button
+                className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
+                type="button"
+                onClick={() => setShowSearch((state) => !state)}
+              >
+                search
+              </button>
+            )}
+          </div>
+
+          <div>
+            {!showSearch && (
+              <div>
+                <button
+                  className=" material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
+                  type="button"
+                  onClick={showSideBar}
+                >
+                  shopping_cart
+                </button>
+              </div>
+            )}
+          </div>
+          <div className="flex fixed z-10 right-0 top-0 ">
+            {sidebar ? (
+              <>
+                <div className="flex">
+                  <SideBarShop
+                    className="flex justify-center"
+                    active={setSidebar}
+                  />
+                </div>
+                <div className="opacity-25 w-2/3 lg:fixed inset-0 z-40 bg-black" />
+              </>
+            ) : null}
+          </div>
+
+          <div className="my-2">
+            {canEdit && (
+              <button
+                type="button"
+                className="rounded-lg p-3 text-gray-500 items-center bg-general-blue top-0 ml-2"
+                onClick={redirectToCreate}
+              >
+                AÑADIR
+              </button>
+            )}
+          </div>
         </div>
       </div>
+
       <div className="lg:grid lg:grid-cols-4 flex-col gap-y-5 p-20 sm:grid-cols-1 min-h-screen">
         {productsPerPage.map((currentProduct) => {
           return (
