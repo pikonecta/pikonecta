@@ -24,9 +24,13 @@ const createTenant = async (data, logo) => {
     CITY: data.city,
     DEPARTMENT: data.department,
   };
-  const res = await axios.post("/api/tenants", req, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.post(
+    "https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/tenants",
+    req,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res;
 };
 
@@ -57,43 +61,59 @@ const updateTenant = async (data, setLogo, logo) => {
   } else {
     req.CURRENT_LOGO = logo.src;
   }
-  const res = await axios.put(`/api/tenants/tenant`, req, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.put(
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/tenants/tenant`,
+    req,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res;
 };
 
 const getTenant = async (id) => {
-  const res = await axios.get(`/api/tenants/tenant?id=${id}`, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.get(
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/tenants/tenant?id=${id}`,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res.data;
 };
 
 const getTenantByEmail = async (email) => {
-  const res = await axios.get(`/api/tenants/tenant/email/?email=${email}`, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.get(
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/tenants/tenant/email/?email=${email}`,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res.data;
 };
 
 const getTenants = async () => {
-  const res = await axios.get(`/api/tenants`, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.get(
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/tenants`,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res.data;
 };
 
 const deleteTenant = async (id) => {
-  const res = await axios.delete(`/api/tenants/tenant?id=${id}`, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.delete(
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/tenants/tenant?id=${id}`,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res;
 };
 
 const deleteProduct = async (id, productId) => {
   const res = await axios.delete(
-    `/api/products/product?tableName=Product_${id}&id=${productId}`,
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/products/product?tableName=Product_${id}&id=${productId}`,
     {
       headers: {
         Authorization: import.meta.env.VITE_ADMIN_TOKEN,
@@ -105,7 +125,7 @@ const deleteProduct = async (id, productId) => {
 
 const getProduct = async (id, productId) => {
   const res = await axios.get(
-    `/api/products/product?tableName=Product_${id}&id=${productId}`,
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/products/product?tableName=Product_${id}&id=${productId}`,
     {
       headers: {
         Authorization: import.meta.env.VITE_ADMIN_TOKEN,
@@ -116,9 +136,12 @@ const getProduct = async (id, productId) => {
 };
 
 const getProducts = async (id) => {
-  const res = await axios.get(`/api/products?tableName=Product_${id}`, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.get(
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/products?tableName=Product_${id}`,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res.data;
 };
 
@@ -146,9 +169,13 @@ const createProduct = async (data, id, images) => {
     productMedia,
   };
 
-  const res = await axios.post("/api/products", req, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.post(
+    "https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/products",
+    req,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res.data;
 };
 
@@ -181,9 +208,13 @@ const updateProduct = async (data, id, setImages, images) => {
     req.CURRENT_MEDIA = data.imgs;
   }
 
-  const res = await axios.put(`/api/products/product`, req, {
-    Authorization: import.meta.env.VITE_ADMIN_TOKEN,
-  });
+  const res = await axios.put(
+    `https://8vzfl5om10.execute-api.us-west-2.amazonaws.com/test/products/product`,
+    req,
+    {
+      Authorization: import.meta.env.VITE_ADMIN_TOKEN,
+    }
+  );
   return res.data;
 };
 
