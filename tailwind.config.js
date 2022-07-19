@@ -17,6 +17,8 @@ module.exports = {
         "sidebar-color-dark": "#4B86BB",
         "general-blue": "#D2DFFF",
         "general-gray": "#F9F9F9",
+        "general-gray-dark": "#868686",
+        "general-gray-darker": "#808080",
       },
     },
   },

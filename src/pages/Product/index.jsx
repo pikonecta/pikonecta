@@ -42,7 +42,7 @@ function ProductForm({ canEdit = false }) {
         reset();
         setImages([]);
         setImagesSrc([]);
-        isCorrectImagesType(false);
+        setIsCorrectImagesType(false);
         setIsLoading(false);
       } else {
         console.log("error creando el producto", res);
