@@ -53,6 +53,7 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="*" element={<Login />} />
       </Routes>
     </AccountProvider>
   );
