@@ -23,7 +23,11 @@ module.exports = {
         "sidebar-amount": "#E5E5E5",
         "general-gray-dark": "#868686",
         "general-gray-darker": "#808080",
-
+        "checkout-order": "#FAFBFF",
+        "order-text": "#646566",
+        "cart-checkout": "#F5F8FE",
+        "button-add-checkout": "#94FAC9",
+        "button-remove-checkout": "#FFB4B4",
       },
     },
   },
