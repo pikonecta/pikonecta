@@ -1,6 +1,6 @@
 import ErrorMessage from "../ErrorMessage";
 
-function UploadImgToForm({
+function ImageUpload({
   content,
   name,
   message,
@@ -78,4 +78,4 @@ function UploadImgToForm({
   );
 }
 
-export default UploadImgToForm;
+export default ImageUpload;

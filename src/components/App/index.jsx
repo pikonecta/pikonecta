@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
-import Client from "@/pages/Client";
-import ProductForm from "@/pages/Product";
-import AdminKonecta from "@/pages/Admin";
-import ClientEdit from "@/pages/ClientEdit";
+import TenantForm from "@/pages/TenantForm";
+import ProductForm from "@/pages/ProductForm";
+import Admin from "@/pages/Admin";
+import ProductList from "@/pages/ProductList";
 import Login from "@/pages/Login";
 import { AccountProvider } from "@/contexts/Account";
 import Checkout from "@/pages/Checkout";
@@ -15,13 +15,13 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/:id/" element={<ClientEdit />} />
+        <Route path="/:id/" element={<ProductList />} />
         <Route path="/:id/side" element={<SideBarShop />} />
         <Route
           path="/admin"
           element={
             <PrivateRoute requiredGroup="admin">
-              <AdminKonecta />
+              <Admin />
             </PrivateRoute>
           }
         />
@@ -29,7 +29,7 @@ function App() {
           path="/admin/create"
           element={
             <PrivateRoute requiredGroup="admin">
-              <Client />
+              <TenantForm />
             </PrivateRoute>
           }
         />
@@ -37,7 +37,7 @@ function App() {
           path="/admin/update/:id"
           element={
             <PrivateRoute requiredGroup="admin">
-              <Client canEdit />
+              <TenantForm canEdit />
             </PrivateRoute>
           }
         />

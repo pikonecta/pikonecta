@@ -5,6 +5,8 @@ import { getTenantByEmail } from "@/utils/apiManager";
 import { useNavigate } from "react-router-dom";
 import useAccount from "@/hooks/useAccount";
 
+// TODO Be able to change password
+
 function Login() {
   const {
     register,
@@ -170,21 +172,6 @@ function Login() {
               </div>
             </div>
           )}
-
-          {/* {!isChangingPassword && (
-            <button
-              onClick={() => {
-                getSession().then((data) => {
-                  console.log(data);
-                });
-                logout();
-              }}
-              type="button"
-              className="text-slate-700 hover:text-black hover:underline-offset-4"
-            >
-              ¿Olvidaste la contraseña?
-            </button>
-          )} */}
         </div>
       </div>
     </div>

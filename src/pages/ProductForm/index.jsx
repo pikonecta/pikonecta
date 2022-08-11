@@ -1,4 +1,4 @@
-import UploadImgToForm from "@/components/ImageUpload";
+import ImageUpload from "@/components/ImageUpload";
 import FormElement from "@/components/FormElement";
 import Sidebar from "@/components/Sidebar";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,7 @@ import useAccount from "@/hooks/useAccount";
 import Loader from "@/components/Loader";
 
 function ProductForm({ canEdit = false }) {
+  // Bien
   const {
     register,
     handleSubmit,
@@ -45,7 +46,7 @@ function ProductForm({ canEdit = false }) {
         setIsCorrectImagesType(false);
         setIsLoading(false);
       } else {
-        console.log("error creando el producto", res);
+        // TODO show error message
         setIsLoading(false);
       }
     } else {
@@ -60,7 +61,7 @@ function ProductForm({ canEdit = false }) {
         navigate(`/${id}`);
       } else {
         setIsLoading(false);
-        console.log("error actualizando el producto", res);
+        // TODO show error message
       }
     }
   };
@@ -169,7 +170,7 @@ function ProductForm({ canEdit = false }) {
                       </button>
                     </div>
                   ) : (
-                    <UploadImgToForm
+                    <ImageUpload
                       content="Sube la imagen del producto"
                       name="product-img"
                       message="imagen del producto"

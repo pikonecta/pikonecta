@@ -7,9 +7,9 @@ import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
-} from "../../components/pagination";
+} from "../../components/Pagination";
 
-function AdminKonecta() {
+function Admin() {
   const [inputValue, setInputValue] = useState("");
   const [companies, setCompanies] = useState([]);
   const [companiesFiltered, setCompaniesFiltered] = useState([]);
@@ -104,4 +104,4 @@ function AdminKonecta() {
     </div>
   );
 }
-export default AdminKonecta;
+export default Admin;

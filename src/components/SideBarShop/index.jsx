@@ -3,6 +3,7 @@ import ProductSide from "../ProductSide";
 // import {useState} from "react";
 
 function SideBarShop({ active }) {
+  // TODO show products using context
   const closeSidebar = () => {
     active(false);
   };
@@ -55,7 +56,6 @@ function SideBarShop({ active }) {
           <button
             className="w-48 h-8 items-center bg-sidebar-title text-slate-50 font-bold rounded-md"
             type="button"
-            onClick={console.log("Hola")}
           >
             FINALIZAR PEDIDO
           </button>

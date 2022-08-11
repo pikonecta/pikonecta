@@ -26,7 +26,7 @@ function CompanyCard({
     if (res.status === 200) {
       setter(id);
     } else {
-      console.log("error al eliminar cliente");
+      // TODO handle error
     }
   };
 
