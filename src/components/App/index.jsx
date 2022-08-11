@@ -5,6 +5,7 @@ import AdminKonecta from "@/pages/Admin";
 import ClientEdit from "@/pages/ClientEdit";
 import Login from "@/pages/Login";
 import { AccountProvider } from "@/contexts/Account";
+import Checkout from "@/pages/Checkout";
 import PrivateRoute from "../PrivateRoute";
 import SideBarShop from "../SideBarShop";
 
@@ -13,6 +14,7 @@ function App() {
     <AccountProvider>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/:id/" element={<ClientEdit />} />
         <Route path="/:id/side" element={<SideBarShop />} />
         <Route
