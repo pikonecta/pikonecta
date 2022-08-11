@@ -17,12 +17,10 @@ function Product({ name, price, images, canEdit = false, idProduct, setter }) {
 
   const handleDelete = async () => {
     const res = await deleteProduct(id, idProduct);
-    console.log(res);
     if (res.status === 200) {
       setter(idProduct);
     } else {
-      console.log("error al eliminar producto");
-      console.log(res);
+      // TODO handle error
     }
   };
 

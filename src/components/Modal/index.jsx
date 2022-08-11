@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function Modal({ title = "", text = "", setter }) {
   const [showModal, setShowModal] = useState(false);
-
+  // Todo: Set modal color
   return (
     <>
       <button

@@ -9,7 +9,7 @@ import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/pagination";
 
-function AdminKonecta() {
+function Admin() {
   const [inputValue, setInputValue] = useState("");
   const [companies, setCompanies] = useState([]);
   const [companiesFiltered, setCompaniesFiltered] = useState([]);
@@ -104,4 +104,4 @@ function AdminKonecta() {
     </div>
   );
 }
-export default AdminKonecta;
+export default Admin;

@@ -1,6 +1,7 @@
-import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/Footer";
 
-const InfoProduct = () => {
+function ProductDetail() {
+  // TODO use SidBarShop
   return (
     <>
       <div className=" bg-general-gray flex justify-between">
@@ -42,7 +43,10 @@ const InfoProduct = () => {
               placeholder="0"
               min={0}
             />
-            <button className="w-full bg-general-blue py-6 rounded mt-3 font-bold">
+            <button
+              type="button"
+              className="w-full bg-general-blue py-6 rounded mt-3 font-bold"
+            >
               AGREGAR AL CARRITO
             </button>
           </div>
@@ -53,11 +57,11 @@ const InfoProduct = () => {
           client="Prueba"
           location="Prueba"
           address="Prueba"
-          telephone={"Prueba"}
+          telephone="Prueba"
         />
       </div>
     </>
   );
-};
+}
 
-export default InfoProduct;
+export default ProductDetail;

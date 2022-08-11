@@ -5,12 +5,13 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Sidebar from "@/components/Sidebar";
 import Location from "@/components/Location";
-import UploadImgToForm from "@/components/ImageUpload";
+import ImageUpload from "@/components/ImageUpload";
 import ErrorMessage from "@/components/ErrorMessage";
 import { createTenant, getTenant, updateTenant } from "@/utils/apiManager";
 import Loader from "@/components/Loader";
 
-function ClientForm({ canEdit = false }) {
+function TenantForm({ canEdit = false }) {
+  // Bien
   const {
     register,
     handleSubmit,
@@ -36,7 +37,7 @@ function ClientForm({ canEdit = false }) {
         navigate("/admin");
       } else {
         setIsLoading(false);
-        console.log("error al crear cliente");
+        // TODO show error message
       }
     } else {
       const res = await updateTenant(
@@ -49,7 +50,7 @@ function ClientForm({ canEdit = false }) {
         navigate("/admin");
       } else {
         setIsLoading(false);
-        console.log("error al crear cliente");
+        // TODO show error message
       }
     }
   };
@@ -141,7 +142,7 @@ function ClientForm({ canEdit = false }) {
                       </button>
                     </div>
                   ) : (
-                    <UploadImgToForm
+                    <ImageUpload
                       content="Sube el logo"
                       name="companyLogo"
                       message="logo"
@@ -339,4 +340,4 @@ function ClientForm({ canEdit = false }) {
   );
 }
 
-export default ClientForm;
+export default TenantForm;

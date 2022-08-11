@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { getProducts, getTenant } from "@/utils/apiManager";
-import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/Footer";
 import Product from "@/components/Product";
 import useOnClickOutside from "@/hooks/useOnClickOutside";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,7 +11,7 @@ import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/pagination";
 
-function ClientEdit() {
+function ProductList() {
   const [company, setCompany] = useState();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
@@ -194,4 +194,4 @@ function ClientEdit() {
   );
 }
 
-export default ClientEdit;
+export default ProductList;
