@@ -7,7 +7,7 @@ import CompanyCard from "./components/CompanyCard";
 import SearchBar from "./components/SearchBar";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
-} from "../../components/pagination";
+} from "../../components/Pagination";
 
 function Admin() {
   const [inputValue, setInputValue] = useState("");

@@ -9,7 +9,7 @@ import Loader from "@/components/Loader";
 import SideBarShop from "@/components/SideBarShop";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
-} from "../../components/pagination";
+} from "../../components/Pagination";
 
 function ProductList() {
   const [company, setCompany] = useState();
