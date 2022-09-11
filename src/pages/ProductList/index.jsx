@@ -6,7 +6,8 @@ import useOnClickOutside from "@/hooks/useOnClickOutside";
 import { useNavigate, useParams } from "react-router-dom";
 import useAccount from "@/hooks/useAccount";
 import Loader from "@/components/Loader";
-import SideBarShop from "@/components/SideBarShop";
+// import SideBarShop from "@/components/SideBarShop";
+import Header from "@/components/Header";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/Pagination";
@@ -25,23 +26,23 @@ function ProductList() {
   const productsSize = productsFiltered.length;
   const ref = useRef();
   const { id } = useParams();
-  const navigate = useNavigate();
+  //  const navigate = useNavigate();
   const { hasTenant, logout } = useAccount();
   const canEdit = hasTenant(id);
   const [sidebar, setSidebar] = useState(false);
-  const showSideBar = () => setSidebar(!sidebar);
+  //  const showSideBar = () => setSidebar(!sidebar);
 
   useOnClickOutside(ref, () => setShowSearch(false));
   // useOnClickOutside(ref, () => showSideBar(!sidebar));
 
-  const redirectToCreate = () => {
+  /*   const redirectToCreate = () => {
     navigate(`/${id}/create`);
   };
 
   const redirectToLogin = () => {
     logout();
     navigate("/login");
-  };
+  }; */
 
   useEffect(() => {
     if (deletedItem) {
@@ -79,7 +80,7 @@ function ProductList() {
   if (isLoading) return <Loader />;
   return (
     <>
-      <div className=" flex bg-general-gray justify-between">
+      {/* <div className=" flex bg-general-gray justify-between">
         <div className="p-10 inline-flex h-min">
           {canEdit && (
             <button
@@ -159,7 +160,8 @@ function ProductList() {
             )}
           </div>
         </div>
-      </div>
+      </div> */}
+      <Header onInputValue={(input) => setInputValue(input)} />
 
       <div className="lg:grid lg:grid-cols-4 flex-col gap-y-5 p-20 sm:grid-cols-1 min-h-screen">
         {productsPerPage.map((currentProduct) => {
