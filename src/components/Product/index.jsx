@@ -15,6 +15,10 @@ function Product({ name, price, images, canEdit = false, idProduct, setter }) {
     navigate(`/${id}/update/${idProduct}`);
   };
 
+  const redirectToProductId = () => {
+    navigate(`/${id}/product-detail/${idProduct}`);
+  };
+
   const handleDelete = async () => {
     const res = await deleteProduct(id, idProduct);
     if (res.status === 200) {
@@ -31,11 +35,13 @@ function Product({ name, price, images, canEdit = false, idProduct, setter }) {
   }, [isDeleting]);
 
   return (
-    <div className="flex flex-col place-items-center ">
-      <div className="cursor-pointer  my-2 mx-4 bg-white rounded-[18px] border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="flex flex-col place-items-center">
+      <div className="cursor-pointer  my-2 mx-4 bg-white rounded-[18px] border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 ">
         <Carousel images={images} />
         <div className="px-5 pb-5 py-2 bg-general-gray ">
-          <div>
+          {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
+          jsx-a11y/no-static-element-interactions */}
+          <div onClick={redirectToProductId}>
             <h3 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
               {name}
             </h3>

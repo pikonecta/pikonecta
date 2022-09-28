@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useShoppingCart } from "use-shopping-cart";
 // import Carousel from "../Carousel";
 
-function ProductSide({ name, price, close }) {
+function ProductSide({ id, name, price, images, quantity }) {
   //   const handleDelete = async () => {
   //     const res = await deleteProductSide(id, idProduct);
   //     console.log(res);
@@ -13,16 +14,19 @@ function ProductSide({ name, price, close }) {
   //     }
   //   };
 
+  const { incrementItem, decrementItem, removeItem } = useShoppingCart();
   const deleteProduct = () => {
-    close(false);
+    removeItem(id);
   };
 
-  const [count, setCount] = useState(1);
+  const [count, setCount] = useState(quantity);
   const decrease = () => {
     setCount(count - 1);
+    decrementItem(id);
   };
   const increase = () => {
     setCount(count + 1);
+    incrementItem(id);
   };
 
   return (
@@ -30,11 +34,7 @@ function ProductSide({ name, price, close }) {
       <div className="grid grid-cols-2 mx-6 my-2 bg-sidebar-product rounded h-48">
         <div className="flex">
           <div className="grid grid-cols-2 m-4">
-            <img
-              className="w-32 h-32 rounded"
-              src="https://www.w3schools.com/images/w3schools_green.jpg"
-              alt="W3Schools.com"
-            />
+            <img className="w-32 h-32 rounded" src={images} alt={name} />
             <div className="grid">
               <h1 className="text-gray-800 font-bold mx-4">{name}</h1>
               <div className="grid grid-cols-2 ">
@@ -47,7 +47,9 @@ function ProductSide({ name, price, close }) {
                   >
                     -
                   </button>
-                  <span className="text-gray-800 font-bold mx-1">{count}</span>
+                  <span className="text-gray-800 font-bold mx-1">
+                    {quantity}
+                  </span>
                   <button type="button" onClick={increase}>
                     +
                   </button>
