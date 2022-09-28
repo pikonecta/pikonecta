@@ -1,12 +1,12 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { getProducts, getTenant } from "@/utils/apiManager";
 import Footer from "@/components/Footer";
 import Product from "@/components/Product";
-import useOnClickOutside from "@/hooks/useOnClickOutside";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useAccount from "@/hooks/useAccount";
 import Loader from "@/components/Loader";
-import SideBarShop from "@/components/SideBarShop";
+// import SideBarShop from "@/components/SideBarShop";
+import Header from "@/components/Header";
 import Pagination, {
   DEFAULT_ITEMS_PER_PAGE as ITEMS_PER_PAGE,
 } from "../../components/Pagination";
@@ -15,7 +15,7 @@ function ProductList() {
   const [company, setCompany] = useState();
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
-  const [showSearch, setShowSearch] = useState(false);
+  // const [showSearch, setShowSearch] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [productsFiltered, setProductsFiltered] = useState([]);
   const [productsPerPage, setProductsPerPage] = useState([]);
@@ -23,25 +23,20 @@ function ProductList() {
   const [deletedItem, setDeletedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const productsSize = productsFiltered.length;
-  const ref = useRef();
   const { id } = useParams();
-  const navigate = useNavigate();
-  const { hasTenant, logout } = useAccount();
+  // const navigate = useNavigate();
+  const { hasTenant } = useAccount();
   const canEdit = hasTenant(id);
-  const [sidebar, setSidebar] = useState(false);
-  const showSideBar = () => setSidebar(!sidebar);
+  // const [sidebar, setSidebar] = useState(false);
+  //  const showSideBar = () => setSidebar(!sidebar);
 
-  useOnClickOutside(ref, () => setShowSearch(false));
+  // useOnClickOutside(ref, () => setShowSearch(false));
   // useOnClickOutside(ref, () => showSideBar(!sidebar));
 
-  const redirectToCreate = () => {
-    navigate(`/${id}/create`);
-  };
-
-  const redirectToLogin = () => {
+  /* const redirectToLogin = () => {
     logout();
     navigate("/login");
-  };
+  }; */
 
   useEffect(() => {
     if (deletedItem) {
@@ -79,7 +74,7 @@ function ProductList() {
   if (isLoading) return <Loader />;
   return (
     <>
-      <div className=" flex bg-general-gray justify-between">
+      {/* <div className=" flex bg-general-gray justify-between">
         <div className="p-10 inline-flex h-min">
           {canEdit && (
             <button
@@ -159,7 +154,8 @@ function ProductList() {
             )}
           </div>
         </div>
-      </div>
+      </div> */}
+      <Header onInputValue={(input) => setInputValue(input)} />
 
       <div className="lg:grid lg:grid-cols-4 flex-col gap-y-5 p-20 sm:grid-cols-1 min-h-screen">
         {productsPerPage.map((currentProduct) => {

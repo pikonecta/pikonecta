@@ -28,6 +28,7 @@ module.exports = {
         "cart-checkout": "#F5F8FE",
         "button-add-checkout": "#94FAC9",
         "button-remove-checkout": "#FFB4B4",
+        "header-text": "#737B90",
       },
     },
   },
