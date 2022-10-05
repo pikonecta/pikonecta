@@ -22,7 +22,6 @@ function ProductDetail() {
     setCompany(tenant.Item);
   }, []);
 
-  // TODO use SidBarShop
   return (
     <>
       <Header />
