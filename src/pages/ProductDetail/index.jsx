@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProduct, getTenant } from "@/utils/apiManager";
 import { useShoppingCart } from "use-shopping-cart";
+import Carrousel from "./components/Carrousel";
 
 function ProductDetail() {
   const { id, idProduct } = useParams();
@@ -27,25 +28,7 @@ function ProductDetail() {
       <Header />
       <div className="lg:grid lg:grid-cols-3 flex-col  p-5 px-10 sm:grid-cols-1 min-h-[73vh]">
         <div className="min-h-full col-span-2">
-          <div className="flex flex-row min-h-full">
-            <div className="flex flex-col col-span-2 justify-between mr-2 w-1/5">
-              <div className="bg-general-blue mb-1 h-full">
-                <img src={product.imgs} alt={product.name} />
-              </div>
-              <div className="bg-general-blue mb-1 h-full">
-                <img src={product.imgs} alt={product.name} />
-              </div>
-              <div className="bg-general-blue mb-1 h-full">
-                <img src={product.imgs} alt={product.name} />
-              </div>
-              <div className="bg-general-blue h-full">
-                <img src={product.imgs} alt={product.name} />
-              </div>
-            </div>
-            <div className="w-full bg-general-blue">
-              <img src={product.imgs} alt={product.name} />
-            </div>
-          </div>
+          <Carrousel imgs={product.imgs} />
         </div>
 
         <div className="flex flex-col justify-between h-full mx-3">
