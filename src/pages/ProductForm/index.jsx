@@ -93,6 +93,7 @@ function ProductForm({ canEdit = false }) {
       setValue("description", currentProduct.description);
       setValue("price", currentProduct.price);
       setValue("type", currentProduct.type);
+      setValue("stock", currentProduct.stock);
       setImagesSrc(currentProduct.imgs);
       const currentImgs = currentProduct.imgs.map((img) => {
         return {
@@ -199,6 +200,20 @@ function ProductForm({ canEdit = false }) {
                   </FormElement>
                 </div>
               </div>
+
+              <FormElement content="Stock: *">
+                <input
+                  type="text"
+                  name="product-price"
+                  id="product-price"
+                  className=" flex-1 block w-full  border-b border-sky-700"
+                  placeholder="Escriba el precio de su producto"
+                  {...register("stock", { required: true })}
+                />
+                {errors.price?.type === "required" && (
+                  <ErrorMessage message="Debe escribir el precio del producto" />
+                )}
+              </FormElement>
 
               <FormElement content="Descripción: *">
                 <textarea

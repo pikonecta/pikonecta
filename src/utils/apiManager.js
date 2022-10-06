@@ -166,6 +166,7 @@ const createProduct = async (data, id, images) => {
     name: data.name,
     description: data.description,
     price: data.price,
+    stock: data.stock,
     productMedia,
   };
 
@@ -186,6 +187,7 @@ const updateProduct = async (data, id, setImages, images) => {
     name: data.name,
     description: data.description,
     price: data.price,
+    stock: data.stock,
   };
 
   if (setImages) {
