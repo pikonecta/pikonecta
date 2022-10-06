@@ -1,7 +1,6 @@
 import { deleteProduct } from "@/utils/apiManager";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Carousel from "../Carousel";
 import Modal from "../Modal";
 
 function Product({ name, price, images, canEdit = false, idProduct, setter }) {
@@ -37,7 +36,11 @@ function Product({ name, price, images, canEdit = false, idProduct, setter }) {
   return (
     <div className="flex flex-col place-items-center">
       <div className="cursor-pointer  my-2 mx-4 bg-white rounded-[18px] border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 ">
-        <Carousel images={images} />
+        <div className="items-start">
+          <div className="relative w-full select-none">
+            <img src={images[0]} alt="" className="w-72 h-60" />
+          </div>
+        </div>
         <div className="px-5 pb-5 py-2 bg-general-gray ">
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
           jsx-a11y/no-static-element-interactions */}
