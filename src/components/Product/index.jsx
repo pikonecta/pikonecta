@@ -1,6 +1,7 @@
 import { deleteProduct } from "@/utils/apiManager";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import Modal from "../Modal";
 
 function Product({ name, price, images, canEdit = false, idProduct, setter }) {
@@ -21,9 +22,10 @@ function Product({ name, price, images, canEdit = false, idProduct, setter }) {
   const handleDelete = async () => {
     const res = await deleteProduct(id, idProduct);
     if (res.status === 200) {
+      toast.success("Producto borrado con exito ❌");
       setter(idProduct);
     } else {
-      // TODO handle error
+      toast.error("Ocurrió algún error 😌");
     }
   };
 
