@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteTenant } from "@/utils/apiManager";
 import { useState, useEffect } from "react";
 import Modal from "@/components/Modal";
+import { toast } from "react-toastify";
 
 function CompanyCard({
   name,
@@ -24,9 +25,10 @@ function CompanyCard({
   const handleDelete = async () => {
     const res = await deleteTenant(id);
     if (res.status === 200) {
+      toast.success("Cliente borrado con éxito 👍");
       setter(id);
     } else {
-      // TODO handle error
+      toast.error("Ocurrió algún error 😌");
     }
   };
 
