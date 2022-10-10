@@ -93,6 +93,7 @@ function ProductForm({ canEdit = false }) {
       setValue("description", currentProduct.description);
       setValue("price", currentProduct.price);
       setValue("type", currentProduct.type);
+      setValue("stock", currentProduct.stock);
       setImagesSrc(currentProduct.imgs);
       const currentImgs = currentProduct.imgs.map((img) => {
         return {
@@ -195,6 +196,20 @@ function ProductForm({ canEdit = false }) {
                       className=" flex-1 block w-full  border-b border-sky-700"
                       placeholder="Elija el tipo de producto"
                       {...register("type")}
+                    />
+                  </FormElement>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="col-span-2">
+                  <FormElement content="stock: *">
+                    <input
+                      type="number"
+                      name="product-stock"
+                      id="product-stock"
+                      className=" flex-1 block w-full  border-b border-sky-700"
+                      placeholder="Escriba el inventario del producto"
+                      {...register("stock", { required: true })}
                     />
                   </FormElement>
                 </div>

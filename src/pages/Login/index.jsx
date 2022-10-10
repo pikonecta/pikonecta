@@ -69,6 +69,7 @@ function Login() {
           navigate(`/${id}`);
         }
       }
+      window.localStorage.setItem("loggedInKonecta", JSON.stringify(res));
     } catch (_) {
       setLoginError("Usuario o contraseña inválidos");
       setIsLoading(false);

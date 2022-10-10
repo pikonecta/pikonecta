@@ -2,11 +2,19 @@ import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import Pool from "@/config/UserPool";
 import { useAccountState, useAccountDispatch } from "@/contexts/Account";
 import { getTenantByEmail } from "@/utils/apiManager";
+import { useEffect } from "react";
 
 const useAccount = () => {
   const accountState = useAccountState();
   const user = accountState?.user?.user;
   const accountDispatch = useAccountDispatch();
+
+  // useEffect(() => {
+  //   const loggedUserJSON = window.localStorage.getItem("loggedInKonecta");
+  //   if (loggedUserJSON) {
+  //     JSON.parse(res);
+  //   }
+  // });
 
   const confirmPassword = (Username, Password, NewPassword) => {
     return new Promise((resolve, reject) => {

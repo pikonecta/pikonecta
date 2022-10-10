@@ -45,13 +45,14 @@ function Header({ onInputValue }) {
   };
   if (isLoading) return <Loader />;
   return (
-    <div className="p-5 bg-general-gray text-header-text flex justify-between aling-center">
+    <div className="p-3 bg-general-gray text-header-text flex justify-between aling-center">
       <div className="p-10 inline-flex h-min m-2">
         {canEdit && (
           <button
             type="button"
             className="material-icons-outlined rounded-lg p-3 text-gray-500 items-center bg-general-blue"
             onClick={redirectToLogin}
+            title="Cerrar sesión"
           >
             logout
           </button>
@@ -59,7 +60,7 @@ function Header({ onInputValue }) {
       </div>
       <div className="items-center p-5">
         <img
-          className="center h-24 w-24"
+          className="content-center h-24 w-24"
           src={company?.LOGO || companies.companies[0].imageUrl}
           alt="LOGO"
         />
@@ -88,6 +89,7 @@ function Header({ onInputValue }) {
             <button
               className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
               type="button"
+              title="Buscar"
               onClick={() => {
                 setShowSearch((state) => !state);
               }}
@@ -103,6 +105,7 @@ function Header({ onInputValue }) {
               <button
                 className=" material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
                 type="button"
+                title="Shop"
                 onClick={showSideBar}
               >
                 shopping_cart
@@ -131,6 +134,7 @@ function Header({ onInputValue }) {
           {canEdit && (
             <button
               type="button"
+              title="Añadir"
               className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
               onClick={redirectToCreate}
             >

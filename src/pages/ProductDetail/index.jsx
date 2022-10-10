@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProduct, getTenant } from "@/utils/apiManager";
 import { useShoppingCart } from "use-shopping-cart";
+import Loader from "@/components/Loader";
 
 function ProductDetail() {
   const { id, idProduct } = useParams();
@@ -11,6 +12,7 @@ function ProductDetail() {
   const [product, setProduct] = useState({});
   const [company, setCompany] = useState();
   const { addItem } = useShoppingCart();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(async () => {
     const res = await getProduct(id, idProduct);
@@ -19,9 +21,11 @@ function ProductDetail() {
 
     const tenant = await getTenant(id);
     setCompany(tenant.Item);
+    setIsLoading(false);
   }, []);
 
   // TODO use SidBarShop
+  if (isLoading) return <Loader />;
   return (
     <>
       <Header />
@@ -29,20 +33,20 @@ function ProductDetail() {
         <div className="min-h-full col-span-2">
           <div className="flex flex-row min-h-full">
             <div className="flex flex-col col-span-2 justify-between mr-2 w-1/5">
-              <div className="bg-general-blue mb-1 h-full">
+              <div className=" mb-1 h-full">
                 <img src={product.imgs} alt={product.name} />
               </div>
-              <div className="bg-general-blue mb-1 h-full">
+              <div className="mb-1 h-full">
                 <img src={product.imgs} alt={product.name} />
               </div>
-              <div className="bg-general-blue mb-1 h-full">
+              <div className="mb-1 h-full">
                 <img src={product.imgs} alt={product.name} />
               </div>
-              <div className="bg-general-blue h-full">
+              <div className="h-full">
                 <img src={product.imgs} alt={product.name} />
               </div>
             </div>
-            <div className="w-full bg-general-blue">
+            <div className="w-full ">
               <img src={product.imgs} alt={product.name} />
             </div>
           </div>
