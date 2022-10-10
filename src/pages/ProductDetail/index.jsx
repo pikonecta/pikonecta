@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProduct, getTenant } from "@/utils/apiManager";
 import { useShoppingCart } from "use-shopping-cart";
+import { toast } from "react-toastify";
 import Carrousel from "./components/Carrousel";
 
 function ProductDetail() {
@@ -57,6 +58,7 @@ function ProductDetail() {
               className="w-full bg-general-blue py-6 rounded mt-3 font-bold"
               onClick={() => {
                 addItem(product, { count: countItem });
+                toast.success("Se añadió el producto con éxito");
               }}
             >
               AGREGAR AL CARRITO

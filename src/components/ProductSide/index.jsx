@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { useShoppingCart } from "use-shopping-cart";
 // import Carousel from "../Carousel";
 
@@ -17,6 +18,7 @@ function ProductSide({ id, name, price, images, quantity }) {
   const { incrementItem, decrementItem, removeItem } = useShoppingCart();
   const deleteProduct = () => {
     removeItem(id);
+    toast.error("Producto eliminado");
   };
 
   const [count, setCount] = useState(quantity);
