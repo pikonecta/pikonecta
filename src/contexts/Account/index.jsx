@@ -9,9 +9,14 @@ const AccountDispatchContext = createContext(() => {});
 function accountReducer(state, action) {
   switch (action.type) {
     case "setUser": {
+      window.localStorage.setItem(
+        "user",
+        JSON.stringify({ ...state.user, ...action.payload })
+      );
       return { ...state, user: { ...state.user, ...action.payload } };
     }
     case "resetUser": {
+      window.localStorage.removeItem("user");
       return INITIAL_STATE;
     }
     default: {
