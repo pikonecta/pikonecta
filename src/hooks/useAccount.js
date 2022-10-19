@@ -2,11 +2,24 @@ import { CognitoUser, AuthenticationDetails } from "amazon-cognito-identity-js";
 import Pool from "@/config/UserPool";
 import { useAccountState, useAccountDispatch } from "@/contexts/Account";
 import { getTenantByEmail } from "@/utils/apiManager";
+import { useEffect } from "react";
 
 const useAccount = () => {
   const accountState = useAccountState();
-  const user = accountState?.user?.user;
+  const localUser = JSON.parse(window.localStorage.getItem("user"));
+  const user = localUser?.user || accountState?.user?.user;
   const accountDispatch = useAccountDispatch();
+
+  useEffect(() => {
+    if (localUser && !accountState.user) {
+      accountDispatch({
+        type: "setUser",
+        payload: {
+          user: { ...localUser.user },
+        },
+      });
+    }
+  }, []);
 
   const confirmPassword = (Username, Password, NewPassword) => {
     return new Promise((resolve, reject) => {
@@ -113,11 +126,15 @@ const useAccount = () => {
   };
 
   const hasGroup = (group) => {
-    return accountState.user && accountState.user.groups.includes(group);
+    return user && user?.groups.includes(group);
+  };
+
+  const getTenant = () => {
+    return user && user?.tenant?.id;
   };
 
   const hasTenant = (tenantId) => {
-    return user && user.tenant.id === tenantId;
+    return user && user?.tenant?.id === tenantId;
   };
 
   return {
@@ -127,6 +144,7 @@ const useAccount = () => {
     authenticate,
     logout,
     confirmPassword,
+    getTenant,
   };
 };
 

@@ -93,6 +93,7 @@ function ProductForm({ canEdit = false }) {
       setValue("name", currentProduct.name);
       setValue("description", currentProduct.description);
       setValue("price", currentProduct.price);
+      setValue("type", currentProduct.type);
       setValue("stock", currentProduct.stock);
       setImagesSrc(currentProduct.imgs);
       const currentImgs = currentProduct.imgs.map((img) => {
@@ -186,20 +187,34 @@ function ProductForm({ canEdit = false }) {
                   )}
                 </div>
               </div>
-
-              <FormElement content="Stock: *">
-                <input
-                  type="text"
-                  name="product-price"
-                  id="product-price"
-                  className=" flex-1 block w-full  border-b border-sky-700"
-                  placeholder="Escriba el precio de su producto"
-                  {...register("stock", { required: true })}
-                />
-                {errors.price?.type === "required" && (
-                  <ErrorMessage message="Debe escribir el precio del producto" />
-                )}
-              </FormElement>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="col-span-2">
+                  <FormElement content="tipo: ">
+                    <input
+                      type="text"
+                      name="product-type"
+                      id="product-type"
+                      className=" flex-1 block w-full  border-b border-sky-700"
+                      placeholder="Elija el tipo de producto"
+                      {...register("type")}
+                    />
+                  </FormElement>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="col-span-2">
+                  <FormElement content="stock: *">
+                    <input
+                      type="number"
+                      name="product-stock"
+                      id="product-stock"
+                      className=" flex-1 block w-full  border-b border-sky-700"
+                      placeholder="Escriba el inventario del producto"
+                      {...register("stock", { required: true })}
+                    />
+                  </FormElement>
+                </div>
+              </div>
 
               <FormElement content="Descripción: *">
                 <textarea

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getProduct, getTenant } from "@/utils/apiManager";
 import { useShoppingCart } from "use-shopping-cart";
 import { toast } from "react-toastify";
+import Loader from "@/components/Loader";
 import Carrousel from "./components/Carrousel";
 
 function ProductDetail() {
@@ -13,6 +14,7 @@ function ProductDetail() {
   const [product, setProduct] = useState({});
   const [company, setCompany] = useState();
   const { addItem } = useShoppingCart();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(async () => {
     const res = await getProduct(id, idProduct);
@@ -21,8 +23,11 @@ function ProductDetail() {
 
     const tenant = await getTenant(id);
     setCompany(tenant.Item);
+    setIsLoading(false);
   }, []);
 
+  // TODO use SidBarShop
+  if (isLoading) return <Loader />;
   return (
     <>
       <Header />

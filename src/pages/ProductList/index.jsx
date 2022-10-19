@@ -114,7 +114,6 @@ function ProductList() {
               </button>
             )}
           </div>
-
           <div>
             {!showSearch && (
               <div>
@@ -141,7 +140,6 @@ function ProductList() {
               </>
             ) : null}
           </div>
-
           <div className="my-2">
             {canEdit && (
               <button

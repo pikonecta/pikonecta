@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "@/components/ErrorMessage";
 import { getTenantByEmail } from "@/utils/apiManager";
@@ -20,7 +20,12 @@ function Login() {
   const [loginError, setLoginError] = useState();
   const navigate = useNavigate();
 
-  const { authenticate, confirmPassword } = useAccount();
+  const { authenticate, confirmPassword, hasGroup, getTenant } = useAccount();
+
+  useEffect(() => {
+    if (hasGroup("admin")) navigate("/admin");
+    if (hasGroup("client")) navigate(`/${getTenant()}`);
+  }, []);
 
   const getUserType = async (email) => {
     const res = await getTenantByEmail(email);
