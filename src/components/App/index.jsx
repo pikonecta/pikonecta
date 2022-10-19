@@ -10,8 +10,10 @@ import Checkout from "@/pages/Checkout";
 import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
 import { CartProvider } from "use-shopping-cart";
+import { ToastContainer } from "react-toastify";
 import PrivateRoute from "../PrivateRoute";
 import SideBarShop from "../SideBarShop";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
       cartMode="checkout-session"
       stripe="pk_test_51LmNTjJksgkZUNNKbVACq1XFcOIF3QTR18sKqQHetUuLhmEpug8yEZkEjTwuQFSGDBGCPILfgZFMaY6NI8L1Scm500JrxHj1lD"
     >
+      <ToastContainer />
       <AccountProvider>
         <Routes>
           <Route path="/login" element={<Login />} />

@@ -9,9 +9,9 @@ import { createProduct, getProduct, updateProduct } from "@/utils/apiManager";
 import { useNavigate, useParams } from "react-router-dom";
 import useAccount from "@/hooks/useAccount";
 import Loader from "@/components/Loader";
+import { toast } from "react-toastify";
 
 function ProductForm({ canEdit = false }) {
-  // Bien
   const {
     register,
     handleSubmit,
@@ -25,7 +25,6 @@ function ProductForm({ canEdit = false }) {
   const { id, idProduct } = useParams();
   const { hasTenant } = useAccount();
   const isCurrentTenant = hasTenant(id);
-
   const [images, setImages] = useState([]);
   const [imagesSrc, setImagesSrc] = useState([]);
   const [isCorrectImagesType, setIsCorrectImagesType] = useState(false);
@@ -44,9 +43,10 @@ function ProductForm({ canEdit = false }) {
         setImages([]);
         setImagesSrc([]);
         setIsCorrectImagesType(false);
+        toast.success("Producto añadido con éxito 😄");
         setIsLoading(false);
       } else {
-        // TODO show error message
+        toast.error("Ocurrió algún error 😌");
         setIsLoading(false);
       }
     } else {
@@ -57,11 +57,12 @@ function ProductForm({ canEdit = false }) {
         images
       );
       if (res.statusCode === 200) {
+        toast.success("Producto modificado con éxito 😄");
         setIsLoading(false);
         navigate(`/${id}`);
       } else {
+        toast.error("Ocurrió algún error 😌");
         setIsLoading(false);
-        // TODO show error message
       }
     }
   };

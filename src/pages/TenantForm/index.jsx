@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FormElement from "@/components/FormElement";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import Sidebar from "@/components/Sidebar";
 import Location from "@/components/Location";
@@ -11,7 +12,6 @@ import { createTenant, getTenant, updateTenant } from "@/utils/apiManager";
 import Loader from "@/components/Loader";
 
 function TenantForm({ canEdit = false }) {
-  // Bien
   const {
     register,
     handleSubmit,
@@ -33,11 +33,12 @@ function TenantForm({ canEdit = false }) {
     if (!canEdit) {
       const res = await createTenant(data, logo);
       if (res.data.statusCode === 200) {
+        toast.success("Cliente añadido con éxito 😄");
         setIsLoading(false);
         navigate("/admin");
       } else {
+        toast.error("Ocurrió algún error 😌");
         setIsLoading(false);
-        // TODO show error message
       }
     } else {
       const res = await updateTenant(
@@ -46,11 +47,12 @@ function TenantForm({ canEdit = false }) {
         logo
       );
       if (res.data.statusCode === 200) {
+        toast.success("Cliente editado con éxito 😄");
         setIsLoading(false);
         navigate("/admin");
       } else {
+        toast.error("Ocurrió algún error 😌");
         setIsLoading(false);
-        // TODO show error message
       }
     }
   };

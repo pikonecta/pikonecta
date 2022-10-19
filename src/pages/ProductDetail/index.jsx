@@ -4,7 +4,9 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getProduct, getTenant } from "@/utils/apiManager";
 import { useShoppingCart } from "use-shopping-cart";
+import { toast } from "react-toastify";
 import Loader from "@/components/Loader";
+import Carrousel from "./components/Carrousel";
 
 function ProductDetail() {
   const { id, idProduct } = useParams();
@@ -31,25 +33,7 @@ function ProductDetail() {
       <Header />
       <div className="lg:grid lg:grid-cols-3 flex-col  p-5 px-10 sm:grid-cols-1 min-h-[73vh]">
         <div className="min-h-full col-span-2">
-          <div className="flex flex-row min-h-full">
-            <div className="flex flex-col col-span-2 justify-between mr-2 w-1/5">
-              <div className=" mb-1 h-full">
-                <img src={product.imgs} alt={product.name} />
-              </div>
-              <div className="mb-1 h-full">
-                <img src={product.imgs} alt={product.name} />
-              </div>
-              <div className="mb-1 h-full">
-                <img src={product.imgs} alt={product.name} />
-              </div>
-              <div className="h-full">
-                <img src={product.imgs} alt={product.name} />
-              </div>
-            </div>
-            <div className="w-full ">
-              <img src={product.imgs} alt={product.name} />
-            </div>
-          </div>
+          <Carrousel imgs={product.imgs} />
         </div>
 
         <div className="flex flex-col justify-between h-full mx-3">
@@ -79,6 +63,7 @@ function ProductDetail() {
               className="w-full bg-general-blue py-6 rounded mt-3 font-bold"
               onClick={() => {
                 addItem(product, { count: countItem });
+                toast.success("Se añadió el producto con éxito");
               }}
             >
               AGREGAR AL CARRITO

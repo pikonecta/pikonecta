@@ -1,0 +1,48 @@
+.carrousel{
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  column-gap:10px;
+}
+
+.carrouselPrincipal{
+  width: 80%;
+  height: 100%;
+  padding: 0;
+  margin-left: 10px;
+}
+
+.carrouselPrincipal .swiper-wrapper{
+  padding-inline-start: 0;
+  margin: 0;
+}
+
+
+.carrouselPrincipal .swiper-wrapper .swiper-slide img{
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+
+}
+.swiper-wrapper{
+list-style-type: none;
+}
+
+
+.carrouselThumbs{
+  width: 20%;
+  height: 100%;
+}
+
+.carrouselThumbs .swiper-wrapper .swiper-slide{
+  aspect-ratio: 1/1;
+}
+
+.carrouselThumbs .swiper-wrapper .swiper-slide img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
