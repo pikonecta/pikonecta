@@ -14,6 +14,9 @@ import { ToastContainer } from "react-toastify";
 import PrivateRoute from "../PrivateRoute";
 import SideBarShop from "../SideBarShop";
 import "react-toastify/dist/ReactToastify.css";
+// eslint-disable-next-line import/order
+import SuccessfulPayment from "@/pages/SuccessulPayment";
+import FailedPayment from "@/pages/FailedPayment";
 
 function App() {
   return (
@@ -27,6 +30,8 @@ function App() {
       <AccountProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/:id/success" element={<SuccessfulPayment />} />
+          <Route path="/:id/failed" element={<FailedPayment />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cart" element={<Cart />} />
 
