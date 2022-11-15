@@ -57,9 +57,7 @@ function Header({ onInputValue }) {
         {canEdit && (
           <button
             type="button"
-
             className="items-center p-3 text-gray-500 material-icons-outlined rounded-lg bg-general-blue"
-
             onClick={redirectToLogin}
             title="Cerrar sesión"
           >
