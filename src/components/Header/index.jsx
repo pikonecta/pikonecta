@@ -45,12 +45,12 @@ function Header({ onInputValue }) {
   };
   if (isLoading) return <Loader />;
   return (
-    <div className="p-3 bg-general-gray text-header-text flex justify-between aling-center">
-      <div className="p-10 inline-flex h-min m-2">
+    <div className="flex items-center justify-between p-3 border shadow bg-general-gray text-header-text">
+      <div className="inline-flex p-10 m-2 h-min">
         {canEdit && (
           <button
             type="button"
-            className="material-icons-outlined rounded-lg p-3 text-gray-500 items-center bg-general-blue"
+            className="items-center p-3 text-gray-500 rounded-lg material-icons-outlined bg-general-blue"
             onClick={redirectToLogin}
             title="Cerrar sesión"
           >
@@ -60,7 +60,7 @@ function Header({ onInputValue }) {
       </div>
       <div className="items-center p-5">
         <img
-          className="content-center h-24 w-24"
+          className="content-center w-24 h-24"
           src={company?.LOGO || companies.companies[0].imageUrl}
           alt="LOGO"
         />
@@ -68,11 +68,11 @@ function Header({ onInputValue }) {
           {company?.COMPANY_NAME || companies.companies[0].name}
         </h1>
       </div>
-      <div className="p-10 inline-flex h-min">
+      <div className="inline-flex p-10 h-min">
         <div>
           {showSearch && (
             <input
-              className="radius-lg rounded-lg border-b p-3  text-gray-500 m-2"
+              className="p-3 m-2 text-gray-500 border-b rounded-lg radius-lg"
               placeholder="Busqueda"
               ref={ref}
               onChange={(search) => {
@@ -87,7 +87,7 @@ function Header({ onInputValue }) {
         <div>
           {!showSearch && (
             <button
-              className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
+              className="items-center p-3 m-2 text-gray-500 rounded-lg material-icons bg-general-blue"
               type="button"
               title="Buscar"
               onClick={() => {
@@ -103,7 +103,7 @@ function Header({ onInputValue }) {
           {!showSearch && (
             <div>
               <button
-                className=" material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
+                className="items-center p-3 m-2 text-gray-500 rounded-lg material-icons bg-general-blue"
                 type="button"
                 title="Shop"
                 onClick={showSideBar}
@@ -113,7 +113,7 @@ function Header({ onInputValue }) {
             </div>
           )}
         </div>
-        <div className="flex fixed z-10 right-0 top-0 ">
+        <div className="fixed top-0 right-0 z-10 flex ">
           {sidebar ? (
             <>
               <div className="flex">
@@ -122,11 +122,11 @@ function Header({ onInputValue }) {
                   active={setSidebar}
                 />
               </div>
-              <div className="opacity-25 w-2/3 lg:fixed inset-0 z-40 bg-black" />
+              <div className="inset-0 z-40 w-2/3 bg-black opacity-25 lg:fixed" />
             </>
           ) : null}
         </div>
-        <div className="flex fixed z-10 right-0 top-0 ">
+        <div className="fixed top-0 right-0 z-10 flex ">
           <div className="flex" />
         </div>
 
@@ -135,7 +135,7 @@ function Header({ onInputValue }) {
             <button
               type="button"
               title="Añadir"
-              className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
+              className="items-center p-3 m-2 text-gray-500 rounded-lg material-icons bg-general-blue"
               onClick={redirectToCreate}
             >
               add_circle
