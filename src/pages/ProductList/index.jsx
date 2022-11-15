@@ -74,88 +74,9 @@ function ProductList() {
   if (isLoading) return <Loader />;
   return (
     <>
-      {/* <div className=" flex bg-general-gray justify-between">
-        <div className="p-10 inline-flex h-min">
-          {canEdit && (
-            <button
-              type="button"
-              className="material-icons-outlined rounded-lg p-3 text-gray-500 items-center bg-general-blue"
-              onClick={redirectToLogin}
-            >
-              logout
-            </button>
-          )}
-        </div>
-        <div className="items-center p-5">
-          <img className="center h-24 w-24" src={company?.LOGO} alt="LOGO" />
-          <span className="center">{company?.COMPANY_NAME}</span>
-        </div>
-        <div className="p-10 inline-flex h-min">
-          <div>
-            {showSearch && (
-              <input
-                className="radius-lg rounded-lg border-b p-3  text-gray-500"
-                placeholder="Busqueda"
-                ref={ref}
-                onChange={(search) => {
-                  setInputValue(search.target.value);
-                }}
-              />
-            )}
-          </div>
-          <div>
-            {!showSearch && (
-              <button
-                className="material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
-                type="button"
-                onClick={() => setShowSearch((state) => !state)}
-              >
-                search
-              </button>
-            )}
-          </div>
-          <div>
-            {!showSearch && (
-              <div>
-                <button
-                  className=" material-icons rounded-lg p-3 text-gray-500 items-center bg-general-blue m-2"
-                  type="button"
-                  onClick={showSideBar}
-                >
-                  shopping_cart
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="flex fixed z-10 right-0 top-0 ">
-            {sidebar ? (
-              <>
-                <div className="flex">
-                  <SideBarShop
-                    className="flex justify-center"
-                    active={setSidebar}
-                  />
-                </div>
-                <div className="opacity-25 w-2/3 lg:fixed inset-0 z-40 bg-black" />
-              </>
-            ) : null}
-          </div>
-          <div className="my-2">
-            {canEdit && (
-              <button
-                type="button"
-                className="rounded-lg p-3 text-gray-500 items-center bg-general-blue top-0 ml-2"
-                onClick={redirectToCreate}
-              >
-                AÑADIR
-              </button>
-            )}
-          </div>
-        </div>
-      </div> */}
       <Header onInputValue={(input) => setInputValue(input)} />
 
-      <div className="lg:grid lg:grid-cols-4 flex-col gap-y-5 p-20 sm:grid-cols-1 min-h-screen">
+      <div className="grid flex-col min-h-screen p-20 lg:grid-cols-4 gap-y-5 sm:grid-cols-1 md:grid-cols-2">
         {productsPerPage.map((currentProduct) => {
           return (
             <Product

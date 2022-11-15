@@ -25,7 +25,7 @@ function App() {
       cartMode="checkout-session"
       stripe="pk_test_51LmNTjJksgkZUNNKbVACq1XFcOIF3QTR18sKqQHetUuLhmEpug8yEZkEjTwuQFSGDBGCPILfgZFMaY6NI8L1Scm500JrxHj1lD"
     >
-      <ToastContainer />
+      <ToastContainer position="top-left" />
       <AccountProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
