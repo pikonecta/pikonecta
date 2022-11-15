@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import companies from "@/assets/companies.json";
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,6 +45,11 @@ function Header({ onInputValue }) {
     logout();
     navigate("/login");
   };
+
+  const redirectToProductList = () => {
+    navigate(`/${id}`);
+  };
+
   if (isLoading) return <Loader />;
   return (
     <div className="p-3 bg-general-gray text-header-text flex justify-between aling-center">
@@ -50,7 +57,7 @@ function Header({ onInputValue }) {
         {canEdit && (
           <button
             type="button"
-            className="material-icons-outlined rounded-lg p-3 text-gray-500 items-center bg-general-blue"
+            className="material-icons-outlined rounded-lg p-3 items-center bg-general-blue"
             onClick={redirectToLogin}
             title="Cerrar sesión"
           >
@@ -58,7 +65,7 @@ function Header({ onInputValue }) {
           </button>
         )}
       </div>
-      <div className="items-center p-5">
+      <div className="items-center p-5" onClick={redirectToProductList}>
         <img
           className="content-center h-24 w-24"
           src={company?.LOGO || companies.companies[0].imageUrl}

@@ -25,7 +25,7 @@ function SideBarShop({ active }) {
         </div>
         <div className="flex cursor-pointer w-6 h-6 m-8 mx-12 justify-center bg-general-blue rounded pt-0">
           <button
-            className="text-gray-800 font-bold"
+            className="selection:text-gray-800 font-bold"
             type="button"
             onClick={closeSidebar}
           >
@@ -44,6 +44,7 @@ function SideBarShop({ active }) {
               price={currentProduct.price}
               images={currentProduct.imgs}
               quantity={currentProduct.quantity}
+              stock={currentProduct.stock}
             />
           );
         })}

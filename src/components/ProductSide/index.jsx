@@ -1,20 +1,10 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useShoppingCart } from "use-shopping-cart";
+import { formatPrice } from "@/utils/numbers";
 // import Carousel from "../Carousel";
 
-function ProductSide({ id, name, price, images, quantity }) {
-  //   const handleDelete = async () => {
-  //     const res = await deleteProductSide(id, idProduct);
-  //     console.log(res);
-  //     if (res.status === 200) {
-  //       setter(idProduct);
-  //     } else {
-  //       console.log("error al eliminar producto");
-  //       console.log(res);
-  //     }
-  //   };
-
+function ProductSide({ id, name, price, images, quantity, stock }) {
   const { incrementItem, decrementItem, removeItem } = useShoppingCart();
   const deleteProduct = () => {
     removeItem(id);
@@ -31,6 +21,8 @@ function ProductSide({ id, name, price, images, quantity }) {
     incrementItem(id);
   };
 
+  const currentStock = quantity !== undefined ? stock - quantity : stock;
+
   return (
     <div>
       <div className="grid grid-cols-2 mx-6 my-2 bg-sidebar-product rounded h-48">
@@ -38,7 +30,7 @@ function ProductSide({ id, name, price, images, quantity }) {
           <div className="grid grid-cols-2 m-4">
             <img className="w-32 h-32 rounded" src={images} alt={name} />
             <div className="grid">
-              <h1 className="text-gray-800 font-bold mx-4">{name}</h1>
+              <h1 className="text-gray-800 font-bimageold mx-4">{name}</h1>
               <div className="grid grid-cols-2 ">
                 <div className="grid grid-cols-3 items-center m-2 w-16 h-8 bg-sidebar-amount rounded my-16">
                   <button
@@ -52,12 +44,16 @@ function ProductSide({ id, name, price, images, quantity }) {
                   <span className="text-gray-800 font-bold mx-1">
                     {quantity}
                   </span>
-                  <button type="button" onClick={increase}>
+                  <button
+                    type="button"
+                    onClick={increase}
+                    disabled={currentStock <= 0}
+                  >
                     +
                   </button>
                 </div>
                 <h1 className="text-gray-800 font-bold mx-40 my-16 container">
-                  ${price}
+                  {formatPrice(price)}
                 </h1>
                 {/* <Carousel images={images} /> */}
               </div>
@@ -66,11 +62,11 @@ function ProductSide({ id, name, price, images, quantity }) {
         </div>
         <div className="flex cursor-pointer w-6 h-6 justify-center bg-general-blue rounded mx-40 my-4">
           <button
-            className="text-gray-800 font-bold "
+            className="material-icons-outlined text-gray-800 font-light text-base"
             type="button"
             onClick={deleteProduct}
           >
-            X
+            delete
           </button>
         </div>
       </div>

@@ -1,7 +1,10 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { deleteProduct } from "@/utils/apiManager";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { formatPrice } from "@/utils/numbers";
 import Modal from "../Modal";
 
 function Product({ name, price, images, canEdit = false, idProduct, setter }) {
@@ -36,7 +39,10 @@ function Product({ name, price, images, canEdit = false, idProduct, setter }) {
   }, [isDeleting]);
 
   return (
-    <div className="flex flex-col place-items-center">
+    <div
+      className="flex flex-col place-items-center"
+      onClick={redirectToProductId}
+    >
       <div className="cursor-pointer  my-2 mx-4 bg-white rounded-[18px] border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 ">
         <div className="items-start">
           <div className="relative w-full select-none">
@@ -46,14 +52,14 @@ function Product({ name, price, images, canEdit = false, idProduct, setter }) {
         <div className="px-5 pb-5 py-2 bg-general-gray ">
           {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,
           jsx-a11y/no-static-element-interactions */}
-          <div onClick={redirectToProductId}>
+          <div>
             <h3 className="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
               {name}
             </h3>
           </div>
           <div className="flex justify-between items-center ">
             <span className="text-sm text-gray-900 dark:text-white">
-              ${price}
+              {formatPrice(price)}
             </span>
             {canEdit && (
               <div className="relative">

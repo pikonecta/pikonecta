@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { useParams } from "react-router-dom";
@@ -6,6 +7,7 @@ import { getProduct, getTenant } from "@/utils/apiManager";
 import { useShoppingCart } from "use-shopping-cart";
 import { toast } from "react-toastify";
 import Loader from "@/components/Loader";
+import { formatPrice } from "@/utils/numbers";
 import Carrousel from "./components/Carrousel";
 
 function ProductDetail() {
@@ -13,7 +15,7 @@ function ProductDetail() {
   const [countItem, setCountItem] = useState(1);
   const [product, setProduct] = useState({});
   const [company, setCompany] = useState();
-  const { addItem } = useShoppingCart();
+  const { addItem, cartDetails } = useShoppingCart();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(async () => {
@@ -26,6 +28,9 @@ function ProductDetail() {
     setIsLoading(false);
   }, []);
 
+  const currentStock = cartDetails[idProduct]?.quantity
+    ? product?.stock - cartDetails[idProduct]?.quantity
+    : product?.stock;
   // TODO use SidBarShop
   if (isLoading) return <Loader />;
   return (
@@ -44,7 +49,7 @@ function ProductDetail() {
             <h1 className="text-2xl font-bold text-center text-general-gray-darker">
               {product.name}
             </h1>
-            <p className="text-center">$ {product.price}</p>
+            <p className="text-center"> {formatPrice(product.price)}</p>
           </div>
           <p className="mx-24 text-xs text-justify basis-1/2 text-general-gray-dark">
             {product.description}
@@ -58,16 +63,35 @@ function ProductDetail() {
               onChange={(e) => setCountItem(e.target.valueAsNumber)}
               min={1}
             />
-            <button
-              type="button"
-              className="w-full bg-general-blue py-6 rounded mt-3 font-bold"
-              onClick={() => {
-                addItem(product, { count: countItem });
-                toast.success("Se añadió el producto con éxito");
-              }}
-            >
-              AGREGAR AL CARRITO
-            </button>
+            {currentStock > 0 ? (
+              <div>
+                {countItem > currentStock && (
+                  <p className="p-2 text-rose-900">
+                    Excede el numero disponible de stock
+                  </p>
+                )}
+                <button
+                  type="button"
+                  className="w-full bg-general-blue py-6 rounded mt-3 font-bold"
+                  onClick={() => {
+                    if (countItem <= currentStock) {
+                      addItem(product, { count: countItem });
+                      toast.success("Se añadió el producto con éxito");
+                    }
+                  }}
+                >
+                  AGREGAR AL CARRITO
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                disabled
+                className="w-full bg-general-blue py-6 rounded mt-3 font-bold"
+              >
+                SIN STOCK
+              </button>
+            )}
           </div>
         </div>
       </div>

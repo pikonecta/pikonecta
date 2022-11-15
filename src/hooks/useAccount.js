@@ -126,7 +126,7 @@ const useAccount = () => {
   };
 
   const hasGroup = (group) => {
-    return user && user?.groups.includes(group);
+    return user && user?.groups?.includes(group);
   };
 
   const getTenant = () => {
