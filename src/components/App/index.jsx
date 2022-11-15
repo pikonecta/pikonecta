@@ -7,6 +7,8 @@ import ProductList from "@/pages/ProductList";
 import Login from "@/pages/Login";
 import { AccountProvider } from "@/contexts/Account";
 import Checkout from "@/pages/Checkout";
+import CheckoutSuccess from "@/pages/CheckoutSuccess";
+import CheckoutError from "@/pages/CheckoutError";
 import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
 import { CartProvider } from "use-shopping-cart";
@@ -28,8 +30,9 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/:id/checkoutSuccess" element={<CheckoutSuccess />} />
+          <Route path="/:id/checkoutError" element={<CheckoutError />} />
           <Route path="/cart" element={<Cart />} />
-
           <Route path="/:id/" element={<ProductList />} />
           <Route path="/:id/side" element={<SideBarShop />} />
           <Route
