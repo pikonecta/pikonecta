@@ -41,11 +41,14 @@ function Product({ name, price, images, canEdit = false, idProduct, setter }) {
   return (
     <div
       className="flex flex-col place-items-center"
-      onClick={redirectToProductId}
+      // onClick={redirectToProductId}
     >
       <div className="cursor-pointer  my-2 mx-4 bg-white rounded-[18px] border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 ">
         <div className="items-start">
-          <div className="relative w-full select-none">
+          <div
+            className="relative w-full select-none"
+            onClick={redirectToProductId}
+          >
             <img src={images[0]} alt="" className="w-72 h-60" />
           </div>
         </div>

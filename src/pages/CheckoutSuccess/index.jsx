@@ -1,4 +1,4 @@
-import shoppingImage from "@/assets/shopping.png";
+import shoppingImage from "@/assets/shopping.jpeg";
 import styles from "./RightPurchase.module.css";
 
 function CheckoutSuccess() {

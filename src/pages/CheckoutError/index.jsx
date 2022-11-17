@@ -1,4 +1,4 @@
-import errorImage from "@/assets/wrongResult.png";
+import errorImage from "@/assets/wrongResult.jpeg";
 import styles from "./PurchaseError.module.css";
 
 function CheckoutError() {
